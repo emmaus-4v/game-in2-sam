@@ -9,10 +9,10 @@ Gemaakt door:
 Basis: uitleg, spelen, afgaan en punten
 - [x] maak index.html, style.css en script.js met canvas
 - [ ] teken speler
-- [ ] beweeg speler
+- [ ] beweeg speler (aswd)
 - [ ] maak een jump (limit op de hoogte)
 - [ ] teken achtergrond
-- [ ] maak de vloer
+- [ ] maak de vloer (platform waar je niet doorheen kan)
 - [ ] maak platformen
 - [ ] hp aanmaken (3 hp)
 - [ ] hp kunnen verliezen
@@ -20,15 +20,15 @@ Basis: uitleg, spelen, afgaan en punten
 - [ ] punten op scherm zetten
 - [ ] punten kunnen scoren
 - [ ] uitlegscherm
+- [ ] als hp 0 is dan game over
 
 Uitbreiding: *bedenk iets, bijvoorbeeld meer tegenstanders*
-- [ ] dash ability (voor moeilijkere challenge)
 - [ ] teken vijanden 
 - [ ] vijanden bewegen 
 - [ ] vijanden doen damage
 
 Uitbreiding: *bedenk iets, bijvoorbeeld bewegende achtergrond*
-- [ ] *later uitwerken*
+- [ ] dash ability (voor moeilijkere challenge)
 - [ ] *later uitwerken*
 - [ ] *later uitwerken*
 
