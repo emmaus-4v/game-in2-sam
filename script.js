@@ -22,6 +22,10 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
+const KEY_LEFT = 37;
+const KEY_RIGHT = 39;
+
+
 var spelerX = 200; // x-positie van speler
 var spelerY = 250; // y-positie van speler
 
@@ -105,8 +109,8 @@ var beweegKogel = function() {
  */
 var beweegSpeler = function() {
     if (keyIsPressed) {
-        if (keyCode === 37) {spelerX -= 2.5}
-        else if (keyCode === 39) {spelerX += 2.5}
+        if (keyCode === KEY_LEFT) {spelerX -= 2.5}
+        else if (keyCode === KEY_RIGHT) {spelerX += 2.5}
     }
 };
 
@@ -114,7 +118,14 @@ var dash = function() {if (keyIsPressed) {
         if (keyCode === 32) {spelerX += 20}} 
 };
 
-var jump = function() {for (var i = 0; i < 5; i++) {if (keyIsPressed && keyCode === 38) {spelerY -= 5}}};
+var jump = function() {
+      if (keyIsPressed && keyCode === 38) {
+         spelerY -= 5;
+      }
+      if (spelerY < 300) {
+         spelerY = 300;
+      }
+};
 
 /**
  * Zoekt uit of de vijand is geraakt
