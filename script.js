@@ -202,7 +202,7 @@ function draw() {
       dash();
       jumpSpeler();
 
-      spelerY += 2.5
+      /*spelerY += 2.5*/
 
       if (checkGameOver()) {
         spelStatus = GAMEOVER;
