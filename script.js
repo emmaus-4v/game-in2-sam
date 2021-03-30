@@ -107,7 +107,6 @@ var beweegSpeler = function() {
     if (keyIsPressed) {
         if (keyCode === 37) {spelerX -= 2.5}
         else if (keyCode === 39) {spelerX += 2.5}
-        else if (keyCode === 38) {spelerY -= 5}
     }
 };
 
@@ -115,7 +114,7 @@ var dash = function() {if (keyIsPressed) {
         if (keyCode === 32) {spelerX += 20}} 
 };
 
- 
+var jump = function() {for (var i = 0; i < 5; i++) {if (keyIsPressed && keyCode === 38) {spelerY -= 5}}};
 
 /**
  * Zoekt uit of de vijand is geraakt
@@ -189,7 +188,6 @@ function draw() {
       tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
       dash();
-
       if (checkGameOver()) {
         spelStatus = GAMEOVER;
       }
