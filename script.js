@@ -24,10 +24,11 @@ var spelStatus = SPELEN;
 
 const KEY_LEFT = 37;
 const KEY_RIGHT = 39;
-
+const KEY_UP = 38;
+const SPACEBAR = 32;
 
 var spelerX = 200; // x-positie van speler
-var spelerY = 250; // y-positie van speler
+var spelerY = 400; // y-positie van speler
 
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
@@ -115,15 +116,15 @@ var beweegSpeler = function() {
 };
 
 var dash = function() {if (keyIsPressed) {
-        if (keyCode === 32) {spelerX += 20}} 
+        if (keyCode === SPACEBAR) {spelerX += 20}} 
 };
 
-var jump = function() {
-      if (keyIsPressed && keyCode === 38) {
+var jumpSpeler = function() {
+      if (keyIsPressed && keyCode === KEY_UP) {
          spelerY -= 5;
       }
-      if (spelerY < 300) {
-         spelerY = 300;
+      if (spelerY < 200) {
+         spelerY = 200;
       }
 };
 
@@ -199,6 +200,10 @@ function draw() {
       tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
       dash();
+      jumpSpeler();
+
+      spelerY += 2.5
+
       if (checkGameOver()) {
         spelStatus = GAMEOVER;
       }
