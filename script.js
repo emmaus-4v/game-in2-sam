@@ -130,8 +130,9 @@ var jumpSpeler = function() {
       }
       if (jumpHoogte === 0) {spelerY += 1.5
       }
-      if (spelerY === 600) {
-         jumpHoogte = 35;
+      if (spelerY > 600) {
+        spelerY = 600;
+        jumpHoogte = 35;
       }
 };
 
