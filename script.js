@@ -28,7 +28,7 @@ const KEY_UP = 38;
 const SPACEBAR = 32;
 
 var spelerX = 200; // x-positie van speler
-var spelerY = 400; // y-positie van speler
+var spelerY = 600; // y-positie van speler
 
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
@@ -119,12 +119,19 @@ var dash = function() {if (keyIsPressed) {
         if (keyCode === SPACEBAR) {spelerX += 20}} 
 };
 
+var jumpHoogte = 35;
+
 var jumpSpeler = function() {
       if (keyIsPressed && keyCode === KEY_UP) {
-         spelerY -= 5;
+         spelerY -= jumpHoogte;
+         jumpHoogte = jumpHoogte - 1/4*jumpHoogte;
       }
-      if (spelerY < 200) {
-         spelerY = 200;
+      if (jumpHoogte < 5) {jumpHoogte = 0;
+      }
+      if (jumpHoogte === 0) {spelerY += 1.5
+      }
+      if (spelerY === 600) {
+         jumpHoogte = 35;
       }
 };
 
@@ -202,7 +209,7 @@ function draw() {
       dash();
       jumpSpeler();
 
-      /*spelerY += 2.5*/
+      /*spelerY += 1*/
 
       if (checkGameOver()) {
         spelStatus = GAMEOVER;
