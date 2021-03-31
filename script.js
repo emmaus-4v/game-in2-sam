@@ -28,7 +28,7 @@ const KEY_UP = 38;
 const SPACEBAR = 32;
 
 var spelerX = 200; // x-positie van speler
-var spelerY = 600; // y-positie van speler
+var spelerY = 575; // y-positie van speler
 
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
@@ -51,17 +51,29 @@ var score = 0; // aantal behaalde punten
  * Tekent het speelveld
  */
 var tekenVeld = function () {
-  fill("green");
+  fill(43, 47, 119);
   rect(20, 20, width - 2 * 20, height - 2 * 20);
+
+  /* dit is de grond*/
+  fill("green");
+  rect(20, 600, width - 2 * 20, height - 2 * 20 - 575);
 };
 
+var borders = function () {
+    if (spelerX < 47) {spelerX = 47}
+    if (spelerX > 1233) {spelerX = 1233}
+    if (spelerY < 47) {spelerY = 47}
+
+};
 
 /**
  * Tekent de vijand
  * @param {number} x x-coördinaat
  * @param {number} y y-coördinaat
  */
-var tekenVijand = function(x, y) {rect(x, y, 100, 100);
+var tekenVijand = function(x, y) {
+    fill(150, 0, 0)
+    rect(x, y, 100, 100);
 
 };
 
@@ -83,7 +95,7 @@ var tekenKogel = function(x, y) {
  * @param {number} y y-coördinaat
  */
 var tekenSpeler = function(x, y) {
-  fill("white");
+  fill("salmon");
   ellipse(x, y, 50, 50);
 };
 
@@ -110,29 +122,29 @@ var beweegKogel = function() {
  */
 var beweegSpeler = function() {
     if (keyIsPressed) {
-        if (keyCode === KEY_LEFT) {spelerX -= 2.5}
-        else if (keyCode === KEY_RIGHT) {spelerX += 2.5}
+        if (keyCode === KEY_LEFT) {spelerX -= 3}
+        else if (keyCode === KEY_RIGHT) {spelerX += 3}
     }
 };
 
-var dash = function() {if (keyIsPressed) {
+/*var dash = function() {if (keyIsPressed) {
         if (keyCode === SPACEBAR) {spelerX += 20}} 
-};
+};*/
 
-var jumpHoogte = 35;
+var jumpHoogte = 60;
 
 var jumpSpeler = function() {
       if (keyIsPressed && keyCode === KEY_UP) {
          spelerY -= jumpHoogte;
-         jumpHoogte = jumpHoogte - 1/4*jumpHoogte;
+         jumpHoogte = jumpHoogte*3/4;
       }
       if (jumpHoogte < 5) {jumpHoogte = 0;
       }
-      if (jumpHoogte === 0) {spelerY += 1.5
+      if (jumpHoogte === 0) {spelerY += 2
       }
-      if (spelerY > 500) {
-        spelerY = 500;
-        jumpHoogte = 35;
+      if (spelerY > 575) {
+        spelerY = 575;
+        jumpHoogte = 60;
       }
 };
 
@@ -177,7 +189,8 @@ function setup() {
   createCanvas(1280, 720);
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
-  background('blue');
+  background('black');
+
 }
 
 
@@ -207,8 +220,9 @@ function draw() {
       tekenVijand(vijandX, vijandY);
       tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
-      dash();
+      /*dash();*/
       jumpSpeler();
+      borders()
 
       /*spelerY += 1*/
 
