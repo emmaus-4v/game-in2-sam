@@ -122,8 +122,8 @@ var beweegKogel = function() {
  */
 var beweegSpeler = function() {
     if (keyIsPressed) {
-        if (keyCode === KEY_LEFT) {spelerX -= 3}
-        else if (keyCode === KEY_RIGHT) {spelerX += 3}
+        if (keyIsDown(KEY_LEFT)) {spelerX -= 3}
+        else if (keyIsDown(KEY_RIGHT)) {spelerX += 3}
     }
 };
 
@@ -131,12 +131,13 @@ var beweegSpeler = function() {
         if (keyCode === SPACEBAR) {spelerX += 20}} 
 };*/
 
-var jumpHoogte = 60;
+var jumpHoogte = 5;
+var speedJump = 0
 
 var jumpSpeler = function() {
-      if (keyIsPressed && keyCode === KEY_UP) {
+      if (keyIsDown(KEY_UP)) {
          spelerY -= jumpHoogte;
-         jumpHoogte = jumpHoogte*3/4;
+         jumpHoogte = jumpHoogte*7/10 + speedJump;
       }
       if (jumpHoogte < 5) {jumpHoogte = 0;
       }
@@ -144,7 +145,8 @@ var jumpSpeler = function() {
       }
       if (spelerY > 575) {
         spelerY = 575;
-        jumpHoogte = 60;
+        jumpHoogte = 40;
+         
       }
 };
 
@@ -224,7 +226,7 @@ function draw() {
       jumpSpeler();
       borders()
 
-      /*spelerY += 1*/
+      /*spelerY += 2*/
 
       if (checkGameOver()) {
         spelStatus = GAMEOVER;
