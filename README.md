@@ -12,7 +12,7 @@ Basis: uitleg, spelen, afgaan en punten
 - [x] beweeg speler (pijltjes)
 - [ ] maak een jump (limit op de hoogte)
 - [ ] teken achtergrond
-- [ ] maak de vloer (platform waar je niet doorheen kan)
+- [x] maak de vloer (platform waar je niet doorheen kan)
 - [ ] maak platformen
 - [ ] hp aanmaken (3 hp)
 - [ ] hp kunnen verliezen
