@@ -60,10 +60,10 @@ var tekenVeld = function () {
 };
 
 var borders = function () {
-    if (spelerX < 47) {spelerX = 47}
+    if (spelerX < 45) {spelerX = 45}
     if (spelerX > 1233) {spelerX = 1233}
     if (spelerY < 47) {spelerY = 47}
-
+    if (spelerY > 575) {spelerY = 575;}
 };
 
 /**
