@@ -122,8 +122,8 @@ var beweegKogel = function() {
  */
 var beweegSpeler = function() {
     if (keyIsPressed) {
-        if (keyIsDown(KEY_LEFT)) {spelerX -= 3}
-        else if (keyIsDown(KEY_RIGHT)) {spelerX += 3}
+        if (keyIsDown(KEY_LEFT)) {spelerX -= 5}
+        else if (keyIsDown(KEY_RIGHT)) {spelerX += 5}
     }
 };
 
@@ -131,29 +131,52 @@ var beweegSpeler = function() {
         if (keyCode === SPACEBAR) {spelerX += 20}} 
 };*/
 
-var jumpHoogte = 7.5;
+var jumpHoogte = 8.5 + 2.5;
 var speedJump = 0
 
 var jumpSpeler = function() {
-      if (keyIsDown(SPACEBAR)) {
-         spelerY -= jumpHoogte + 2.5;
+      if (keyIsDown(KEY_UP)) {
+         spelerY -= jumpHoogte;
          speedJump += 1
       }
 
-      if (speedJump > 20) {jumpHoogte = 0;
+      if (speedJump === 5) {jumpHoogte = 6 + 2.5;
       }
 
-      if (speedJump === 10) {jumpHoogte = 5 + 2.5;
+      if (speedJump === 10) {jumpHoogte = 4.5 + 2.5;
       }
 
-      if (jumpHoogte === 0) {spelerY += 2
+      if (speedJump === 20) {jumpHoogte = 3 + 2.5;
+      }
+
+      if (speedJump === 25) {jumpHoogte = 1.5 + 2.5;
+      }
+
+      if (speedJump === 30) {jumpHoogte = 0.75 + 2.5;
+      }
+
+      if (speedJump === 35) {jumpHoogte = 0.25 + 2.5;
+      }
+
+      if (speedJump === 36) {jumpHoogte = 0.20 + 2.5;
+      }
+
+      if (speedJump === 37) {jumpHoogte = 0.15 + 2.5;
+      }
+
+      if (speedJump === 38) {jumpHoogte = 0.10 + 2.5;
+      }
+
+      if (speedJump === 39) {jumpHoogte = 0.5 + 2.5;
+      }
+
+      if (speedJump > 39) {jumpHoogte = 0;
       }
 
       if (spelerY > 575) {
         spelerY = 575;
-        jumpHoogte = 7.5;
+        jumpHoogte = 8.5 + 2.5;
         speedJump= 0;
-         
       }
 };
 
