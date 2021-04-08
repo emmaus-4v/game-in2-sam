@@ -71,6 +71,9 @@ var borders = function () {
     if (spelerY > 600 - spelerSize/2) {spelerY = 600 - spelerSize/2;};
 };
 
+var platformenX = 0;
+var platformenY = 0;
+
 var platform = function(platformX, platformY) {
 if (spelerX > platformX - spelerSize/2 &&
     spelerX < platformX + 100 + spelerSize/2 &&
@@ -78,6 +81,8 @@ if (spelerX > platformX - spelerSize/2 &&
     spelerY < platformY + spelerSize/2) 
      
      {spelerY = platformY - spelerSize/2;
+        platformenX = platformX;
+        platformenY = platformY;
      };
 
 if (spelerX > platformX - spelerSize/2 &&
@@ -86,6 +91,22 @@ if (spelerX > platformX - spelerSize/2 &&
     spelerY < platformY + 10 + spelerSize/2) 
      
      {spelerY = platformY + 10 + spelerSize/2;
+     };
+
+if (spelerX > platformX - spelerSize/2 &&
+    spelerX < platformX + 100 + spelerSize/2 &&
+    spelerY > platformY - spelerSize/2 &&
+    spelerY < platformY + 10 + spelerSize/2) 
+     
+     {spelerX = platformX + 100 + spelerSize/2;
+     };
+
+if (spelerX > platformX - spelerSize/2 &&
+    spelerX < platformX + 100 + spelerSize/2 &&
+    spelerY > platformY - spelerSize/2 &&
+    spelerY < platformY + 10 + spelerSize/2) 
+     
+     {spelerX = platformX - spelerSize/2;
      };
 
     fill("orange")
@@ -202,6 +223,11 @@ var jumpSpeler = function() {
       if (spelerY > 600 - spelerSize/2) {
         jumpHoogte = 8.5 + 2.5;
         speedJump= 0;
+
+        {
+        jumpHoogte = 8.5 + 2.5;
+        speedJump= 0;
+     };
       }
 };
 
@@ -283,6 +309,10 @@ function draw() {
       jumpSpeler();
       borders()
       platform(300, 550)
+      platform(400, 450)
+      platform(300, 350)
+      platform(200, 250)
+      platform(100, 200)
 
       spelerY += 2.5
 
