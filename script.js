@@ -29,6 +29,8 @@ const SPACEBAR = 32;
 
 var spelerX = 200; // x-positie van speler
 var spelerY = 575; // y-positie van speler
+var spelerSize = 50;
+var hp = 3; // levens speler
 
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
@@ -57,13 +59,16 @@ var tekenVeld = function () {
   /* dit is de grond*/
   fill("green");
   rect(20, 600, width - 2 * 20, height - 2 * 20 - 575);
+
+  fill(150, 0, 0);
+  rect (500, 500, 100, 100);
 };
 
 var borders = function () {
-    if (spelerX < 45) {spelerX = 45}
-    if (spelerX > 1233) {spelerX = 1233}
-    if (spelerY < 47) {spelerY = 47}
-    if (spelerY > 575) {spelerY = 575;}
+    if (spelerX < 20 + spelerSize/2) {spelerX = 20 + spelerSize/2;}
+    if (spelerX > 1260 - spelerSize/2) {spelerX = 1260 - spelerSize/2;}
+    if (spelerY < 20 + spelerSize/2) {spelerY = 20 + spelerSize/2;}
+    if (spelerY > 600 - spelerSize/2) {spelerY = 600 - spelerSize/2;};
 };
 
 /**
@@ -72,8 +77,8 @@ var borders = function () {
  * @param {number} y y-coördinaat
  */
 var tekenVijand = function(x, y) {
-    fill(150, 0, 0)
-    rect(x, y, 100, 100);
+    /*fill(150, 0, 0)
+    rect(x, y, 100, 100);*/
 
 };
 
@@ -96,7 +101,7 @@ var tekenKogel = function(x, y) {
  */
 var tekenSpeler = function(x, y) {
   fill("salmon");
-  ellipse(x, y, 50, 50);
+  ellipse(x, y, spelerSize, spelerSize);
 };
 
 
@@ -132,7 +137,7 @@ var beweegSpeler = function() {
 };*/
 
 var jumpHoogte = 8.5 + 2.5;
-var speedJump = 0
+var speedJump = 0;
 
 var jumpSpeler = function() {
       if (keyIsDown(KEY_UP)) {
@@ -173,8 +178,7 @@ var jumpSpeler = function() {
       if (speedJump > 39) {jumpHoogte = 0;
       }
 
-      if (spelerY > 575) {
-        spelerY = 575;
+      if (spelerY > 600 - spelerSize/2) {
         jumpHoogte = 8.5 + 2.5;
         speedJump= 0;
       }
@@ -196,18 +200,19 @@ var checkVijandGeraakt = function() {
  * @returns {boolean} true als speler is geraakt
  */
 var checkSpelerGeraakt = function() {
-    
-  return false;
+    if (spelerX > 500 - spelerSize/2 && spelerX < 600 + spelerSize/2 && spelerY > 500 - spelerSize/2 && spelerY < 600)
+    {return true;}
+    else return false;
 };
-
 
 /**
  * Zoekt uit of het spel is afgelopen
  * @returns {boolean} true als het spel is afgelopen
  */
 var checkGameOver = function() {
-    
-  return false;
+    if (hp === 0)
+    {return true}
+    else return false;
 };
 
 
@@ -246,6 +251,7 @@ function draw() {
       if (checkSpelerGeraakt()) {
         // leven eraf of gezondheid verlagen
         // eventueel: nieuwe speler maken
+        hp -= hp;
       }
 
       tekenVeld();
@@ -259,7 +265,9 @@ function draw() {
       spelerY += 2.5
 
       if (checkGameOver()) {
-        spelStatus = GAMEOVER;
+        // spelStatus = GAMEOVER;
+        spelerX = 35;
+        hp = 3;
       }
       break;
   }

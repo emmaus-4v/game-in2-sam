@@ -10,7 +10,7 @@ Basis: uitleg, spelen, afgaan en punten
 - [x] maak index.html, style.css en script.js met canvas
 - [x] teken speler
 - [x] beweeg speler (pijltjes)
-- [ ] maak een jump (limit op de hoogte)
+- [x] maak een jump (limit op de hoogte)
 - [ ] teken achtergrond
 - [x] maak de vloer (platform waar je niet doorheen kan)
 - [ ] maak platformen
