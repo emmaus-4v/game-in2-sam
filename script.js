@@ -29,7 +29,7 @@ const SPACEBAR = 32;
 
 var spelerX = 200; // x-positie van speler
 var spelerY = 575; // y-positie van speler
-var spelerSize = 50;
+var spelerSize = 25;
 var hp = 3; // levens speler
 
 var kogelX = 0;    // x-positie van kogel
@@ -69,6 +69,27 @@ var borders = function () {
     if (spelerX > 1260 - spelerSize/2) {spelerX = 1260 - spelerSize/2;}
     if (spelerY < 20 + spelerSize/2) {spelerY = 20 + spelerSize/2;}
     if (spelerY > 600 - spelerSize/2) {spelerY = 600 - spelerSize/2;};
+};
+
+var platform = function(platformX, platformY) {
+if (spelerX > platformX - spelerSize/2 &&
+    spelerX < platformX + 100 + spelerSize/2 &&
+    spelerY > platformY - spelerSize/2 &&
+    spelerY < platformY + spelerSize/2) 
+     
+     {spelerY = platformY - spelerSize/2;
+     };
+
+if (spelerX > platformX - spelerSize/2 &&
+    spelerX < platformX + 100 + spelerSize/2 &&
+    spelerY > platformY - spelerSize/2 &&
+    spelerY < platformY + 10 + spelerSize/2) 
+     
+     {spelerY = platformY + 10 + spelerSize/2;
+     };
+
+    fill("orange")
+    rect(platformX, platformY, 100, 10)
 };
 
 /**
@@ -261,6 +282,7 @@ function draw() {
       /*dash();*/
       jumpSpeler();
       borders()
+      platform(300, 550)
 
       spelerY += 2.5
 
