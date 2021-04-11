@@ -11,11 +11,11 @@ Basis: uitleg, spelen, afgaan en punten
 - [x] teken speler
 - [x] beweeg speler (pijltjes)
 - [x] maak een jump (limit op de hoogte)
-- [ ] teken achtergrond
+- [x] teken achtergrond
 - [x] maak de vloer (platform waar je niet doorheen kan)
-- [ ] maak platformen
-- [ ] hp aanmaken (3 hp)
-- [ ] hp kunnen verliezen
+- [x] maak platformen
+- [x] hp aanmaken (3 hp)
+- [x] hp kunnen verliezen
 - [ ] maak platformen die damage doen
 - [ ] punten op scherm zetten
 - [ ] punten kunnen scoren

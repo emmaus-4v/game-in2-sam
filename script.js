@@ -305,6 +305,7 @@ function draw() {
         // leven eraf of gezondheid verlagen
         // eventueel: nieuwe speler maken
         hp -= hp;
+        spelerX = 35;
       }
 
       tekenVeld();
@@ -323,10 +324,19 @@ function draw() {
       spelerY += 2.5
 
       if (checkGameOver()) {
-        // spelStatus = GAMEOVER;
-        spelerX = 35;
-        hp = 3;
+        spelStatus = GAMEOVER;
       }
       break;
+
+    case GAMEOVER:
+        background(0,0,0);
+        textSize(75)
+        fill(255, 0, 0)
+        text("game over", 640 - 175, 360, 700, 700);
+
+    if (keyIsPressed) {
+        spelStatus = SPELEN;
+        hp = 3;
+    }
   }
 }
