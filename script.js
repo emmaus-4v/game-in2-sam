@@ -60,8 +60,8 @@ var tekenVeld = function () {
   fill("green");
   rect(20, 600, width - 2 * 20, height - 2 * 20 - 575);
 
-  fill(150, 0, 0);
-  rect (500, 500, 100, 100);
+      fill(150, 0, 0);
+      rect (500, 500, 100, 100);
 };
 
 var borders = function () {
@@ -119,9 +119,11 @@ if (spelerX > x - spelerSize/2 &&
  * @param {number} y y-coördinaat
  */
 var tekenVijand = function(x, y) {
-    /*fill(150, 0, 0)
-    rect(x, y, 100, 100);*/
+    /*fill(150, 0, 0);
+    rect (x, y, 100, 100);
 
+    vijandX = x;
+    vijandY = y;*/
 };
 
 
@@ -249,13 +251,17 @@ var checkVijandGeraakt = function() {
  * bijvoorbeeld door botsing met vijand
  * @returns {boolean} true als speler is geraakt
  */
-var checkSpelerGeraakt = function() {
-    if (spelerX > 500 - spelerSize/2 && 
-        spelerX < 600 + spelerSize/2 && 
-        spelerY > 500 - spelerSize/2 && 
-        spelerY < 600)
+var checkSpelerGeraakt = function(x,y) {
+    if (spelerX > x - spelerSize/2 && 
+        spelerX < x + 100 + spelerSize/2 && 
+        spelerY > y - spelerSize/2 && 
+        spelerY < y + 100 + spelerSize/2)
+
     {return true;}
     else return false;
+
+    fill(150, 0, 0);
+    rect(x, y, 100, 100);
 };
 
 /**
