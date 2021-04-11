@@ -71,46 +71,46 @@ var borders = function () {
     if (spelerY > 600 - spelerSize/2) {spelerY = 600 - spelerSize/2;};
 };
 
-var platformenX = 0;
-var platformenY = 0;
+var platformX = 0;
+var platformY = 0;
 
-var platform = function(platformX, platformY) {
-if (spelerX > platformX - spelerSize/2 &&
-    spelerX < platformX + 100 + spelerSize/2 &&
-    spelerY > platformY - spelerSize/2 &&
-    spelerY < platformY + spelerSize/2) 
-     
-     {spelerY = platformY - spelerSize/2;
-        platformenX = platformX;
-        platformenY = platformY;
+var platform = function(x, y) {
+if (spelerX > x - spelerSize/2 &&
+    spelerX < x + 100 + spelerSize/2 &&
+    spelerY > y - spelerSize/2 &&
+    spelerY < y + spelerSize/2) 
+
+     {spelerY = y - spelerSize/2;
+        platformX = x;
+        platformY = y;
      };
 
-if (spelerX > platformX - spelerSize/2 &&
-    spelerX < platformX + 100 + spelerSize/2 &&
-    spelerY > platformY - spelerSize/2 &&
-    spelerY < platformY + 10 + spelerSize/2) 
+if (spelerX > x - spelerSize/2 &&
+    spelerX < x + 100 + spelerSize/2 &&
+    spelerY > y - spelerSize/2 &&
+    spelerY < y + 10 + spelerSize/2) 
      
-     {spelerY = platformY + 10 + spelerSize/2;
+     {spelerY = y + 10 + spelerSize/2;
      };
 
-if (spelerX > platformX - spelerSize/2 &&
-    spelerX < platformX + 100 + spelerSize/2 &&
-    spelerY > platformY - spelerSize/2 &&
-    spelerY < platformY + 10 + spelerSize/2) 
+if (spelerX > x - spelerSize/2 &&
+    spelerX < x + 100 + spelerSize/2 &&
+    spelerY > y - spelerSize/2 &&
+    spelerY < y + 10 + spelerSize/2) 
      
-     {spelerX = platformX + 100 + spelerSize/2;
+     {spelerX = x + 100 + spelerSize/2;
      };
 
-if (spelerX > platformX - spelerSize/2 &&
-    spelerX < platformX + 100 + spelerSize/2 &&
-    spelerY > platformY - spelerSize/2 &&
-    spelerY < platformY + 10 + spelerSize/2) 
+if (spelerX > x - spelerSize/2 &&
+    spelerX < x + 100 + spelerSize/2 &&
+    spelerY > y - spelerSize/2 &&
+    spelerY < y + 10 + spelerSize/2) 
      
-     {spelerX = platformX - spelerSize/2;
+     {spelerX = x - spelerSize/2;
      };
 
     fill("orange")
-    rect(platformX, platformY, 100, 10)
+    rect(x, y, 100, 10)
 };
 
 /**
@@ -222,13 +222,16 @@ var jumpSpeler = function() {
 
       if (spelerY > 600 - spelerSize/2) {
         jumpHoogte = 8.5 + 2.5;
-        speedJump= 0;
+        speedJump= 0;};
 
-        {
-        jumpHoogte = 8.5 + 2.5;
-        speedJump= 0;
-     };
-      }
+      if (spelerX > platformX - spelerSize/2 &&
+          spelerX < platformX + 100 + spelerSize/2 &&
+          spelerY > platformY - spelerSize/2 &&
+          spelerY < platformY + spelerSize/2)
+
+          {jumpHoogte = 8.5 + 2.5;
+           speedJump = 0;}
+      
 };
 
 /**
@@ -247,7 +250,10 @@ var checkVijandGeraakt = function() {
  * @returns {boolean} true als speler is geraakt
  */
 var checkSpelerGeraakt = function() {
-    if (spelerX > 500 - spelerSize/2 && spelerX < 600 + spelerSize/2 && spelerY > 500 - spelerSize/2 && spelerY < 600)
+    if (spelerX > 500 - spelerSize/2 && 
+        spelerX < 600 + spelerSize/2 && 
+        spelerY > 500 - spelerSize/2 && 
+        spelerY < 600)
     {return true;}
     else return false;
 };
