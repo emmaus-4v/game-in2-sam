@@ -78,7 +78,8 @@ var platform = function(x, y, w, h) {
 if (spelerX > x - spelerSize/2 &&
     spelerX < x + w + spelerSize/2 &&
     spelerY > y - spelerSize/2 &&
-    spelerY < y + spelerSize/2) 
+    spelerY < y + spelerSize/2
+    ) 
 
      {spelerY = y - spelerSize/2;
         jumpHoogte = 8.5 + 2.5;
