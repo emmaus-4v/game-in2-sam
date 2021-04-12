@@ -30,7 +30,7 @@ const SPACEBAR = 32;
 var spelerX = 200; // x-positie van speler
 var spelerY = 575; // y-positie van speler
 var spelerSize = 25;
-var hp = 3; // levens speler
+var hp = 5; // levens speler
 
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
@@ -60,8 +60,6 @@ var tekenVeld = function () {
   fill("green");
   rect(20, 600, width - 2 * 20, height - 2 * 20 - 575);
 
-      fill(150, 0, 0);
-      rect (500, 500, 100, 100);
 };
 
 var borders = function () {
@@ -71,46 +69,51 @@ var borders = function () {
     if (spelerY > 600 - spelerSize/2) {spelerY = 600 - spelerSize/2;};
 };
 
+var platformSize = [50, 100, 200, 400];
+
 var platformX = 0;
 var platformY = 0;
 
-var platform = function(x, y) {
+var platform = function(x, y, w, h) {
 if (spelerX > x - spelerSize/2 &&
-    spelerX < x + 100 + spelerSize/2 &&
+    spelerX < x + w + spelerSize/2 &&
     spelerY > y - spelerSize/2 &&
     spelerY < y + spelerSize/2) 
 
      {spelerY = y - spelerSize/2;
+        jumpHoogte = 8.5 + 2.5;
+        speedJump = 0;
         platformX = x;
         platformY = y;
      };
 
 if (spelerX > x - spelerSize/2 &&
-    spelerX < x + 100 + spelerSize/2 &&
+    spelerX < x + w + spelerSize/2 &&
     spelerY > y - spelerSize/2 &&
-    spelerY < y + 10 + spelerSize/2) 
+    spelerY < y + 5 + h + spelerSize/2) 
      
-     {spelerY = y + 10 + spelerSize/2;
+     {spelerY = y + 5 + h + spelerSize/2;
+      speedJump = 40;
      };
 
 if (spelerX > x - spelerSize/2 &&
-    spelerX < x + 100 + spelerSize/2 &&
+    spelerX < x + 5 + w + spelerSize/2 &&
     spelerY > y - spelerSize/2 &&
-    spelerY < y + 10 + spelerSize/2) 
+    spelerY < y + h + spelerSize/2) 
      
-     {spelerX = x + 100 + spelerSize/2;
+     {spelerX = x + 5 + w + spelerSize/2;
      };
 
-if (spelerX > x - spelerSize/2 &&
-    spelerX < x + 100 + spelerSize/2 &&
+if (spelerX > x - 5 - spelerSize/2 &&
+    spelerX < x + w + spelerSize/2 &&
     spelerY > y - spelerSize/2 &&
-    spelerY < y + 10 + spelerSize/2) 
+    spelerY < y + h + spelerSize/2) 
      
-     {spelerX = x - spelerSize/2;
+     {spelerX = x - 5 - spelerSize/2;
      };
 
     fill("orange")
-    rect(x, y, 100, 10)
+    rect(x, y, w, h)
 };
 
 /**
@@ -225,14 +228,6 @@ var jumpSpeler = function() {
       if (spelerY > 600 - spelerSize/2) {
         jumpHoogte = 8.5 + 2.5;
         speedJump= 0;};
-
-      if (spelerX > platformX - spelerSize/2 &&
-          spelerX < platformX + 100 + spelerSize/2 &&
-          spelerY > platformY - spelerSize/2 &&
-          spelerY < platformY + spelerSize/2)
-
-          {jumpHoogte = 8.5 + 2.5;
-           speedJump = 0;}
       
 };
 
@@ -251,17 +246,31 @@ var checkVijandGeraakt = function() {
  * bijvoorbeeld door botsing met vijand
  * @returns {boolean} true als speler is geraakt
  */
-var checkSpelerGeraakt = function(x,y) {
-    if (spelerX > x - spelerSize/2 && 
+var checkSpelerGeraakt = function() {
+    /*if (spelerX > x - spelerSize/2 && 
         spelerX < x + 100 + spelerSize/2 && 
         spelerY > y - spelerSize/2 && 
         spelerY < y + 100 + spelerSize/2)
 
-    {return true;}
-    else return false;
+    {return true;}*/
+    return false;
 
+    /*fill(150, 0, 0);
+    rect(x, y, 100, 100);*/
+};
+
+var damagePlatform = function(x, y, w, h)
+{if (spelerX > x - spelerSize/2 && 
+        spelerX < x + w + spelerSize/2 && 
+        spelerY > y - spelerSize/2 && 
+        spelerY < y + h + spelerSize/2)
+
+        {hp -= hp
+        spelerX = 35;
+        spelerY = 550;
+    }
     fill(150, 0, 0);
-    rect(x, y, 100, 100);
+    rect(x, y, w, h);
 };
 
 /**
@@ -297,6 +306,10 @@ function setup() {
  */
 function draw() {
   switch (spelStatus) {
+    case UITLEG:
+
+    break;
+
     case SPELEN:
       beweegVijand();
       beweegKogel();
@@ -321,11 +334,13 @@ function draw() {
       /*dash();*/
       jumpSpeler();
       borders()
-      platform(300, 550)
-      platform(400, 450)
-      platform(300, 350)
-      platform(200, 250)
-      platform(100, 200)
+      platform(300, 550, platformSize[0], platformSize[1])
+      platform(400, 450, platformSize[0], platformSize[3])
+      platform(300, 350, platformSize[0], platformSize[1])
+      platform(200, 250, platformSize[1], platformSize[0])
+      platform(100, 200, platformSize[2], platformSize[2])
+      damagePlatform(500, 500, 50, 200)
+      damagePlatform(300, 200, 300, 70)
 
       spelerY += 2.5
 
@@ -340,9 +355,9 @@ function draw() {
         fill(255, 0, 0)
         text("game over", 640 - 175, 360, 700, 700);
 
-    if (keyIsPressed) {
+    if (keyIsPressed && keyCode === SPACEBAR) {
         spelStatus = SPELEN;
-        hp = 3;
+        hp = 5;
     }
   }
 }
