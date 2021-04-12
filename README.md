@@ -16,7 +16,7 @@ Basis: uitleg, spelen, afgaan en punten
 - [x] maak platformen
 - [x] hp aanmaken (3 hp)
 - [x] hp kunnen verliezen
-- [ ] maak platformen die damage doen
+- [x] maak platformen die damage doen
 - [ ] punten op scherm zetten
 - [ ] punten kunnen scoren
 - [ ] uitlegscherm

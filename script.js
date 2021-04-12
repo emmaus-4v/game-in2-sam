@@ -91,7 +91,8 @@ if (spelerX > x - spelerSize/2 &&
 if (spelerX > x - spelerSize/2 &&
     spelerX < x + w + spelerSize/2 &&
     spelerY > y - spelerSize/2 &&
-    spelerY < y + 5 + h + spelerSize/2) 
+    spelerY < y + 5 + h + spelerSize/2
+    ) 
      
      {spelerY = y + 5 + h + spelerSize/2;
       speedJump = 40;
@@ -100,7 +101,8 @@ if (spelerX > x - spelerSize/2 &&
 if (spelerX > x - spelerSize/2 &&
     spelerX < x + 5 + w + spelerSize/2 &&
     spelerY > y - spelerSize/2 &&
-    spelerY < y + h + spelerSize/2) 
+    spelerY < y + h + spelerSize/2
+    ) 
      
      {spelerX = x + 5 + w + spelerSize/2;
      };
@@ -108,7 +110,8 @@ if (spelerX > x - spelerSize/2 &&
 if (spelerX > x - 5 - spelerSize/2 &&
     spelerX < x + w + spelerSize/2 &&
     spelerY > y - spelerSize/2 &&
-    spelerY < y + h + spelerSize/2) 
+    spelerY < y + h + spelerSize/2
+    ) 
      
      {spelerX = x - 5 - spelerSize/2;
      };
