@@ -22,13 +22,17 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
+const EERSTELEVEL = 0;
+const TWEEDELEVEL = 1;
+var level = EERSTELEVEL;
+
 const KEY_LEFT = 37;
 const KEY_RIGHT = 39;
 const KEY_UP = 38;
 const SPACEBAR = 32;
 
-var spelerX = 200; // x-positie van speler
-var spelerY = 575; // y-positie van speler
+var spelerX = 100; // x-positie van speler
+var spelerY = 300; // y-positie van speler
 var spelerSize = 25;
 var hp = 5; // levens speler
 
@@ -56,10 +60,26 @@ var tekenVeld = function () {
   fill(43, 47, 119);
   rect(20, 20, width - 2 * 20, height - 2 * 20);
 
+  var sterren = function(x, y) {
+      fill(187,224,255)
+      // noStroke();
+      rect(x, y, 5, 5);
+      rect(x + 2.5, y, 5, 5);
+      rect(x - 2.5, y, 5, 5);
+      rect(x, y + 2.5, 5, 5);
+      rect(x, y - 2.5, 5, 5)
+  };
+
+  sterren(300, 800);
+  sterren(600, 300);
+
   /* dit is de grond*/
   fill("green");
   rect(20, 600, width - 2 * 20, height - 2 * 20 - 575);
-
+  if (spelerY > 600 - spelerSize/2) {
+      spelerY = 600 - spelerSize/2;
+      jumpHoogte = 8.5 + 2.5;
+      speedJump= 0;}
 };
 
 var borders = function () {
@@ -115,7 +135,7 @@ if (spelerX > x - 5 - spelerSize/2 &&
      
      {spelerX = x - 5 - spelerSize/2;
      };
-
+    
     fill("orange")
     rect(x, y, w, h)
 };
@@ -229,9 +249,7 @@ var jumpSpeler = function() {
       if (speedJump > 39) {jumpHoogte = 0;
       }
 
-      if (spelerY > 600 - spelerSize/2) {
-        jumpHoogte = 8.5 + 2.5;
-        speedJump= 0;};
+        // hij springt ongeveer 150 pixels hoog
       
 };
 
@@ -269,9 +287,9 @@ var damagePlatform = function(x, y, w, h)
         spelerY > y - spelerSize/2 && 
         spelerY < y + h + spelerSize/2)
 
-        {hp -= hp
-        spelerX = 35;
-        spelerY = 550;
+        {hp -= 1;
+        spelerX = 100;
+        spelerY = 300;
     }
     fill(150, 0, 0);
     rect(x, y, w, h);
@@ -327,7 +345,7 @@ function draw() {
       if (checkSpelerGeraakt()) {
         // leven eraf of gezondheid verlagen
         // eventueel: nieuwe speler maken
-        hp -= hp;
+        hp -= 1;
         spelerX = 35;
       }
 
@@ -337,16 +355,44 @@ function draw() {
       tekenSpeler(spelerX, spelerY);
       /*dash();*/
       jumpSpeler();
-      borders()
-      platform(300, 550, platformSize[0], platformSize[1])
-      platform(400, 450, platformSize[0], platformSize[3])
-      platform(300, 350, platformSize[0], platformSize[1])
-      platform(200, 250, platformSize[1], platformSize[0])
-      platform(100, 200, platformSize[2], platformSize[2])
-      damagePlatform(500, 500, 50, 200)
+      // borders()
+      platform(0, 0, 20, 300)
+      platform(1260, 0, 20, 300)
+      platform(0, 0, 1280, 20)
+      platform(0, 700, 1280, 20)
+
+      platform(0, 420, 20, 300)
+      platform(1260, 420, 20, 300)
+      // platform(x, y, w, h)
+      // platformSize = [50, 100, 200, 400]
+
+      switch(level) {
+
+      case EERSTELEVEL:
+      platform(50, 500, platformSize[1], platformSize[0])
+      platform(300, 500, platformSize[1], platformSize[0])
+      platform(550, 500, platformSize[1], platformSize[0])
+      platform(800, 500, platformSize[1], platformSize[0])
+      platform(1050, 500, platformSize[1], platformSize[0])
+      damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
+      
+      if (spelerX > 1270) {
+          level = TWEEDELEVEL;
+          spelerX = 100;
+          spelerY = 300;
+      }
+      break;
+    
+      case TWEEDELEVEL:
+
       damagePlatform(300, 200, 300, 70)
 
-      spelerY += 2.5
+      break;
+    }
+
+      textSize(30)
+      text("hp = " + hp, 40, 40, 200, 200)
+      spelerY += 3.25
 
       if (checkGameOver()) {
         spelStatus = GAMEOVER;
