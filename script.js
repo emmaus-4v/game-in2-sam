@@ -24,6 +24,7 @@ var spelStatus = SPELEN;
 
 const EERSTELEVEL = 0;
 const TWEEDELEVEL = 1;
+const DERDELEVEL  = 2;
 var level = EERSTELEVEL;
 
 const KEY_LEFT = 37;
@@ -32,7 +33,9 @@ const KEY_UP = 38;
 const SPACEBAR = 32;
 
 var spelerX = 100; // x-positie van speler
-var spelerY = 300; // y-positie van speler
+var spelerY = 500; // y-positie van speler
+var spawnX = 100;
+var spawnY = 500;
 var spelerSize = 25;
 var hp = 5; // levens speler
 
@@ -288,8 +291,31 @@ var damagePlatform = function(x, y, w, h)
         spelerY < y + h + spelerSize/2)
 
         {hp -= 1;
-        spelerX = 100;
-        spelerY = 300;
+        spelerX = spawnX;
+        spelerY = spawnY;
+        speedJump = 40;
+    }
+    fill(150, 0, 0);
+    rect(x, y, w, h);
+};
+
+var punten = function(x, y, w, h, s)
+{if (spelerX > x - spelerSize*1/2 && 
+        spelerX < x + w + spelerSize*1/2 && 
+        spelerY > y - spelerSize*1/2 && 
+        spelerY < y + h + spelerSize*1/2)
+
+        {score += 1;
+         x = 0;
+         y = 0;
+         s += 1;
+    }
+
+    if (s > 0) {
+         w = 0;
+         h = 0;
+         x = 0;
+         y = 0;
     }
     fill(150, 0, 0);
     rect(x, y, w, h);
@@ -355,7 +381,8 @@ function draw() {
       tekenSpeler(spelerX, spelerY);
       /*dash();*/
       jumpSpeler();
-      // borders()
+      
+      // dit zijn de borders
       platform(0, 0, 20, 300)
       platform(1260, 0, 20, 300)
       platform(0, 0, 1280, 20)
@@ -374,24 +401,44 @@ function draw() {
       platform(550, 500, platformSize[1], platformSize[0])
       platform(800, 500, platformSize[1], platformSize[0])
       platform(1050, 500, platformSize[1], platformSize[0])
+
+      punten(550 + 50, 500 - 75, platformSize[0], platformSize[0], 0)
+      punten(800 + 50, 500 - 75, platformSize[0], platformSize[0], 0)
+
       damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
       
-      if (spelerX > 1270) {
+      if (spelerX > 1260 - spelerSize/2) {
           level = TWEEDELEVEL;
-          spelerX = 100;
-          spelerY = 300;
+          spawnX = 100;
+          spawnY = 500;
+          spelerX = 20 + spelerSize/2;
+      }
+
+      if (spelerX < 20 + spelerSize/2) {
+          level = DERDELEVEL;
+          spawnX = 1280 - 100;
+          spawnY = 500;
+          spelerX = 1260 - spelerSize/2;
       }
       break;
     
       case TWEEDELEVEL:
 
-      damagePlatform(300, 200, 300, 70)
+      damagePlatform(300, 500, 300, 70)
 
       break;
+
+      case DERDELEVEL:
+
+      platform(550, 300, platformSize[1], platformSize[0])
+      platform(1000, 40, platformSize[1], platformSize[0])
+      damagePlatform(700, 500, 300, 70)
     }
 
       textSize(30)
+      fill(200, 200, 200)
       text("hp = " + hp, 40, 40, 200, 200)
+      text("score = " + score, 40, 80, 400, 200)
       spelerY += 3.25
 
       if (checkGameOver()) {
@@ -404,10 +451,16 @@ function draw() {
         textSize(75)
         fill(255, 0, 0)
         text("game over", 640 - 175, 360, 700, 700);
+        level = EERSTELEVEL;
+        spelerX = 100;
+        spelerY = 500;
+        spawnX = 100;
+        spawnY = 500
 
     if (keyIsPressed && keyCode === SPACEBAR) {
         spelStatus = SPELEN;
         hp = 5;
+        score = 0;
     }
   }
 }
