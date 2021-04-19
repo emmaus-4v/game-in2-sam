@@ -37,11 +37,13 @@ var spelerY = 500; // y-positie van speler
 var spawnX = 100;
 var spawnY = 500;
 
-var platformX = [5, 6];
-var platformY = [5, 7];
+var platformX = [50, 300, 550, 800, 1050];
+var platformY = [500, 500, 500, 500, 500];
 
 var platformHoogte = 50;
 var platformBreedte = 100;
+var platformSize = [50, 100, 200, 400];
+
 
 var spelerSize = 25;
 var hp = 5; // levens speler
@@ -97,8 +99,6 @@ var borders = function () {
     if (spelerY < 20 + spelerSize/2) {spelerY = 20 + spelerSize/2;}
     if (spelerY > 600 - spelerSize/2) {spelerY = 600 - spelerSize/2;};
 };
-
-var platformSize = [50, 100, 200, 400];
 
 var platform = function(x, y, w, h) {
 if (spelerX > x - spelerSize/2 &&
@@ -183,7 +183,7 @@ var tekenSpeler = function(x, y) {
 
 var tekenPlatform = function(x,y,w,h) {
   fill("orange");
-  rect(x, y, platformHoogte, platformBreedte)
+  rect(platformX[0], y, w, h)
 }
 
 /**
@@ -379,7 +379,7 @@ function draw() {
       tekenVijand(vijandX, vijandY);
       tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
-      tekenPlatform(platformX, platformY, platformBreedte, platformHoogte)
+      // tekenPlatform(platformX, platformY, 100, 50)
       /*dash();*/
       jumpSpeler();
       
@@ -397,14 +397,19 @@ function draw() {
       switch(level) {
 
       case EERSTELEVEL:
+
+      /*for(var i = 0; i < platformX.length; i++) {
+
+            platform(platformX[i], 500, 100, 50);
+            tekenPlatform(platformX[i], 500, 100, 50);
+        }*/
+
+
       platform(50, 500, platformSize[1], platformSize[0])
       platform(300, 500, platformSize[1], platformSize[0])
       platform(550, 500, platformSize[1], platformSize[0])
       platform(800, 500, platformSize[1], platformSize[0])
       platform(1050, 500, platformSize[1], platformSize[0])
-
-      punten(550 + 50, 500 - 75, platformSize[0], platformSize[0])
-      punten(800 + 50, 500 - 75, platformSize[0], platformSize[0])
 
       damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
       
