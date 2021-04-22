@@ -40,6 +40,9 @@ var spawnY = 500;
 var platformX = [50, 300, 550, 800, 1050];
 var platformY = [500, 500, 500, 500, 500];
 
+var damagePlatformX = [1200, 300, 550, 800, 1050];
+var damagePlatformY = [500, 500, 500, 500, 500];
+
 var platformHoogte = 50;
 var platformBreedte = 100;
 var platformSize = [50, 100, 200, 400];
@@ -398,20 +401,19 @@ function draw() {
 
       case EERSTELEVEL:
 
-      /*for(var i = 0; i < platformX.length; i++) {
 
-            platform(platformX[i], 500, 100, 50);
-            tekenPlatform(platformX[i], 500, 100, 50);
-        }*/
+      for(var i =0; i <damagePlatformX.length; i++) {
+      damagePlatform(damagePlatformX[i], damagePlatformY[i], 100, 50)
+      platform(platformX[i], platformY[i],100, 50)
+      }
 
-
-      platform(50, 500, platformSize[1], platformSize[0])
+      /*platform(50, 500, platformSize[1], platformSize[0])
       platform(300, 500, platformSize[1], platformSize[0])
       platform(550, 500, platformSize[1], platformSize[0])
       platform(800, 500, platformSize[1], platformSize[0])
-      platform(1050, 500, platformSize[1], platformSize[0])
+      platform(1050, 500, platformSize[1], platformSize[0])*/
 
-      damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
+      // damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
       
       if (spelerX > 1260 - spelerSize/2) {
           level = TWEEDELEVEL;
