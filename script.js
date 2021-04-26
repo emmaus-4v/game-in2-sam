@@ -40,8 +40,11 @@ var spawnY = 500;
 var platformX = [50, 300, 550, 800, 1050];
 var platformY = [500, 500, 500, 500, 500];
 
-var damagePlatformX = [1200, 300, 550, 800, 1050];
-var damagePlatformY = [500, 500, 500, 500, 500];
+var damagePlatformX = [1200, 300, 600, 1050];
+var damagePlatformY = [200, 300, 200, 450];
+
+var puntenX = [300, 550, 800];
+var puntenY = [450, 450, 450];
 
 var platformHoogte = 50;
 var platformBreedte = 100;
@@ -58,7 +61,7 @@ var vijandX = 300;   // x-positie van vijand
 var vijandY = 300;   // y-positie van vijand
 
 var score = 0; // aantal behaalde punten
-
+var hoogsteScore = 0;
 
 
 
@@ -75,7 +78,7 @@ var tekenVeld = function () {
   fill(43, 47, 119);
   rect(20, 20, width - 2 * 20, height - 2 * 20);
 
-  var sterren = function(x, y) {
+  /*var sterren = function(x, y) {
       fill(187,224,255)
       rect(x + 2.5, y, 5, 5);
       rect(x - 2.5, y, 5, 5);
@@ -85,7 +88,7 @@ var tekenVeld = function () {
   };
 
   sterren(300, 800);
-  sterren(600, 300);
+  sterren(600, 300);*/
 
   /* dit is de grond*/
   fill("green");
@@ -113,8 +116,6 @@ if (spelerX > x - spelerSize/2 &&
      {spelerY = y - spelerSize/2;
         jumpHoogte = 8.5 + 2.5;
         speedJump = 0;
-        platformX = x;
-        platformY = y;
      };
 
 if (spelerX > x - spelerSize/2 &&
@@ -309,19 +310,26 @@ var damagePlatform = function(x, y, w, h)
     rect(x, y, w, h);
 };
 
-var punten = function(x, y, w, h)
+var punten = function(x, y, w, h, p)
 {if (spelerX > x - spelerSize*1/2 && 
         spelerX < x + w + spelerSize*1/2 && 
         spelerY > y - spelerSize*1/2 && 
         spelerY < y + h + spelerSize*1/2)
 
         {score += 1;
-         x = 0;
-         y = 0;
+            puntenX.splice(p, 1);
+            puntenY.splice(p, 1);
+         
     }
 
-    fill(150, 0, 0);
-    rect(x, y, w, h);
+      fill(187,224,255)
+      ellipse(x, y, w*1.5, h*1.5);
+
+      /*rect(x + w/2, y, w, h);
+      rect(x - w/2, y, w, h);
+      rect(x, y + h/2, w, h);
+      rect(x, y - h/2, w, h);
+      rect(x, y, w, h);*/
 };
 
 /**
@@ -404,7 +412,14 @@ function draw() {
 
       for(var i =0; i <damagePlatformX.length; i++) {
       damagePlatform(damagePlatformX[i], damagePlatformY[i], 100, 50)
+      }
+
+      for(var i =0; i <platformX.length; i++) {
       platform(platformX[i], platformY[i],100, 50)
+      }
+
+      for(var i =0; i <puntenX.length; i++) {
+      punten(puntenX[i], puntenY[i], 12.5, 12.5, i)
       }
 
       /*platform(50, 500, platformSize[1], platformSize[0])
@@ -460,6 +475,14 @@ function draw() {
         textSize(75)
         fill(255, 0, 0)
         text("game over", 640 - 175, 360, 700, 700);
+        text("score: " + score, 640 - 175, 460, 700, 700);
+
+
+        if (score > hoogsteScore) {
+            hoogsteScore = score;
+        }
+
+        text ("Highscore: " + hoogsteScore, 640 - 175, 560, 700, 700);
         level = EERSTELEVEL;
         spelerX = 100;
         spelerY = 500;
@@ -470,6 +493,8 @@ function draw() {
         spelStatus = SPELEN;
         hp = 5;
         score = 0;
+        puntenX = [300, 550, 800];
+        puntenY = [450, 450, 450];
     }
   }
 }

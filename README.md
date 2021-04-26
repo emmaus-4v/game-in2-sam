@@ -17,10 +17,10 @@ Basis: uitleg, spelen, afgaan en punten
 - [x] hp aanmaken (3 hp)
 - [x] hp kunnen verliezen
 - [x] maak platformen die damage doen
-- [ ] punten op scherm zetten
-- [ ] punten kunnen scoren
+- [x] punten op scherm zetten
+- [x] punten kunnen scoren
 - [ ] uitlegscherm
-- [ ] als hp 0 is dan game over
+- [x] als hp 0 is dan game over
 
 Uitbreiding: *bedenk iets, bijvoorbeeld meer tegenstanders*
 - [ ] teken vijanden 
