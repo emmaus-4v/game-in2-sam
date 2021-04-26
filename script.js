@@ -43,8 +43,8 @@ var platformY = [500, 500, 500, 500, 500];
 var damagePlatformX = [1200, 300, 600, 1050];
 var damagePlatformY = [200, 300, 200, 450];
 
-var puntenX = [300, 550, 800];
-var puntenY = [450, 450, 450];
+var puntenX = [300, 550, 800, 400, 700];
+var puntenY = [450, 450, 450, 600, 200];
 
 var platformHoogte = 50;
 var platformBreedte = 100;
@@ -410,15 +410,15 @@ function draw() {
       case EERSTELEVEL:
 
 
-      for(var i =0; i <damagePlatformX.length; i++) {
+      for(var i = 0; i <damagePlatformX.length; i++) {
       damagePlatform(damagePlatformX[i], damagePlatformY[i], 100, 50)
       }
 
-      for(var i =0; i <platformX.length; i++) {
+      for(var i = 0; i <platformX.length; i++) {
       platform(platformX[i], platformY[i],100, 50)
       }
 
-      for(var i =0; i <puntenX.length; i++) {
+      for(var i = 0; i <puntenX.length; i++) {
       punten(puntenX[i], puntenY[i], 12.5, 12.5, i)
       }
 
@@ -493,8 +493,8 @@ function draw() {
         spelStatus = SPELEN;
         hp = 5;
         score = 0;
-        puntenX = [300, 550, 800];
-        puntenY = [450, 450, 450];
+        puntenX = [300, 550, 800, 400, 700];
+        puntenY = [450, 450, 450, 600, 200];
     }
   }
 }
