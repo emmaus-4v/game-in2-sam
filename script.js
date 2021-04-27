@@ -37,11 +37,14 @@ var spelerY = 500; // y-positie van speler
 var spawnX = 100;
 var spawnY = 500;
 
+var platformSpeedY = [2, 2, 2, 2];
+var platformSpeedX = [2, 2, 2, 2];
+
 var platformX = [50, 300, 550, 800, 1050];
 var platformY = [500, 500, 500, 500, 500];
 
-var damagePlatformX = [1200, 300, 600, 1050];
-var damagePlatformY = [200, 300, 200, 450];
+var damagePlatformX = [175, 425, 675, 925];
+var damagePlatformY = [250, 250, 250, 250];
 
 var puntenX = [300, 550, 800, 400, 700];
 var puntenY = [450, 450, 450, 600, 200];
@@ -217,6 +220,32 @@ var beweegSpeler = function() {
     }
 };
 
+var beweegPlatform = function(x,y) {
+    // platformX[x] += platformSpeed;
+    // damagePlatformY[y] += platformSpeedY[y];
+    // damagePlatformX[x] += platformSpeedX[x];
+
+    damagePlatformY[y] += platformSpeedY[y];
+    damagePlatformX[x] += platformSpeedY[x];
+
+    if (damagePlatformY[y] > 550) {
+        platformSpeedY[y] = -3;
+    }
+    
+    if (damagePlatformY[y] < 350) {
+        platformSpeedY[y] = 3;
+    }
+
+    /*if (damagePlatformX[x] > 1000) {
+        platformSpeedX[x] = -3;
+    }
+    
+    if (damagePlatformX[x] < 350) {
+        platformSpeedX[x] = 3;
+    }*/
+
+}
+
 /*var dash = function() {if (keyIsPressed) {
         if (keyCode === SPACEBAR) {spelerX += 20}} 
 };*/
@@ -311,10 +340,10 @@ var damagePlatform = function(x, y, w, h)
 };
 
 var punten = function(x, y, w, h, p)
-{if (spelerX > x - spelerSize*1/2 && 
-        spelerX < x + w + spelerSize*1/2 && 
-        spelerY > y - spelerSize*1/2 && 
-        spelerY < y + h + spelerSize*1/2)
+{if (spelerX > x - 0.375*w && 
+        spelerX < x + 1*w && 
+        spelerY > y - 0.375*h && 
+        spelerY < y + 1*w)
 
         {score += 1;
             puntenX.splice(p, 1);
@@ -323,13 +352,8 @@ var punten = function(x, y, w, h, p)
     }
 
       fill(187,224,255)
-      ellipse(x, y, w*1.5, h*1.5);
-
-      /*rect(x + w/2, y, w, h);
-      rect(x - w/2, y, w, h);
-      rect(x, y + h/2, w, h);
-      rect(x, y - h/2, w, h);
-      rect(x, y, w, h);*/
+      ellipse(x, y, w, h);
+      // rect(x - 0.375*w, y - 0.375*h, 0.625*w, 0.625*h)
 };
 
 /**
@@ -415,22 +439,21 @@ function draw() {
       }
 
       for(var i = 0; i <platformX.length; i++) {
-      platform(platformX[i], platformY[i],100, 50)
+      platform(platformX[i], platformY[i], 100, 50)
       }
 
       for(var i = 0; i <puntenX.length; i++) {
-      punten(puntenX[i], puntenY[i], 12.5, 12.5, i)
+      punten(puntenX[i], puntenY[i], 20, 20, i)
       }
 
-      /*platform(50, 500, platformSize[1], platformSize[0])
-      platform(300, 500, platformSize[1], platformSize[0])
-      platform(550, 500, platformSize[1], platformSize[0])
-      platform(800, 500, platformSize[1], platformSize[0])
-      platform(1050, 500, platformSize[1], platformSize[0])*/
-
-      // damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
+      for(var i = 0; i <damagePlatformY.length; i++) {
+      beweegPlatform(i,i)
+    }
       
-      if (spelerX > 1260 - spelerSize/2) {
+    damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
+}
+      
+      /*if (spelerX > 1260 - spelerSize/2) {
           level = TWEEDELEVEL;
           spawnX = 100;
           spawnY = 500;
@@ -457,7 +480,7 @@ function draw() {
       platform(1000, 40, platformSize[1], platformSize[0])
       platform(300, 500, platformSize[1], platformSize[0])
       damagePlatform(700, 500, 300, 70)
-    }
+    }*/
 
       textSize(30)
       fill(200, 200, 200)
