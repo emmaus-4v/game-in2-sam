@@ -29,7 +29,7 @@ Uitbreiding: *bedenk iets, bijvoorbeeld meer tegenstanders*
 
 Uitbreiding: *bedenk iets, bijvoorbeeld bewegende achtergrond*
 - [ ] dash ability (voor moeilijkere challenge)
-- [ ] *later uitwerken*
+- [x] regen
 - [ ] *later uitwerken*
 
 ## Credits
