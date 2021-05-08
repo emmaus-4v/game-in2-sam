@@ -49,6 +49,9 @@ var damagePlatformY = [250, 250, 250, 250];
 var puntenX = [300, 550, 800, 400, 700];
 var puntenY = [450, 450, 450, 600, 200];
 
+var regenX = [300, 756, 600, 300, 200, 456, 784, 0, 0, 0, 0, 0 ,0 ,0 , 0];
+var regenY = [100, 200, 150, 43, 178, 32, 94, 0 , 0, 0, 0, 0, 0, 0, 0];
+
 var platformHoogte = 50;
 var platformBreedte = 100;
 var platformSize = [50, 100, 200, 400];
@@ -73,6 +76,17 @@ var hoogsteScore = 0;
 /*      functies die je gebruikt in je game      */
 /* ********************************************* */
 
+var rain = function(x,y) {
+   ellipse(regenX[x], regenY[y], 10, 10)
+
+   if (regenY[y] > 700) {
+       regenY[y] = random(20, 200)
+       regenX[x] = random(20, 1280)
+   }
+
+   regenX[x] += 2
+   regenY[y] += 3.5
+};
 
 /**
  * Tekent het speelveld
@@ -393,7 +407,7 @@ function draw() {
 
     break;
 
-    case SPELEN:
+    case SPELEN: 
       beweegVijand();
       beweegKogel();
       beweegSpeler();
@@ -407,7 +421,9 @@ function draw() {
         // leven eraf of gezondheid verlagen
         // eventueel: nieuwe speler maken
         hp -= 1;
-        spelerX = 35;
+        spelerX = spawnX;
+        spelerY = spawnY;
+        speedJump = 40;
       }
 
       tekenVeld();
@@ -428,6 +444,10 @@ function draw() {
       platform(1260, 420, 20, 300)
       // platform(x, y, w, h)
       // platformSize = [50, 100, 200, 400]
+
+      for(var i = 0; i <regenX.length; i++) {
+          rain(i,i)
+      }
 
       switch(level) {
 
