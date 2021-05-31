@@ -42,13 +42,13 @@ var platformSpeedY = [2, 2, 2, 2];
 var platformSpeedX = [2, 2, 2, 2];
 
 var platformX = [[50, 300, 550, 800, 1050], 
-                 [300, 600]];
+                 [50, 250, 50, 250, 700, 950, 1125,      500, 500, 500, 500, 500, 500, 500, 800, 800, 800, 800]];
 
 var platformY = [[500, 500, 500, 500, 500], 
-                 [300, 600]];
+                 [500, 400, 300, 200, 550, 550, 450,  550, 500, 450, 400, 350, 300, 250, 400, 350, 300, 250]];
 
-var damagePlatformX = [[175, 425, 675, 925], [50]];
-var damagePlatformY = [[250, 250, 250, 250], [50]];
+var damagePlatformX = [[175, 425, 675, 925], [500, 600, 700, 800]];
+var damagePlatformY = [[250, 250, 250, 250], [200, 250, 400, 200]];
 
 var puntenX = [[300, 550, 800, 400, 700], [700]];
 var puntenY = [[450, 450, 450, 600, 200], [700]];
@@ -471,9 +471,9 @@ function draw() {
       punten(puntenX[levels][i], puntenY[levels][i], 20, 20, i)
       }
 
-      for(var i = 0; i <damagePlatformY[levels].length; i++) {
+      /*for(var i = 0; i <damagePlatformY[levels].length; i++) {
       beweegPlatform(i,i)
-    }
+    }*/
       
     damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
 }
