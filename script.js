@@ -21,6 +21,7 @@ const UITLEG = 0;
 const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
+var levels = 0;
 
 const EERSTELEVEL = 0;
 const TWEEDELEVEL = 1;
@@ -40,17 +41,20 @@ var spawnY = 500;
 var platformSpeedY = [2, 2, 2, 2];
 var platformSpeedX = [2, 2, 2, 2];
 
-var platformX = [50, 300, 550, 800, 1050];
-var platformY = [500, 500, 500, 500, 500];
+var platformX = [[50, 300, 550, 800, 1050], 
+                 [300, 600]];
 
-var damagePlatformX = [175, 425, 675, 925];
-var damagePlatformY = [250, 250, 250, 250];
+var platformY = [[500, 500, 500, 500, 500], 
+                 [300, 600]];
 
-var puntenX = [300, 550, 800, 400, 700];
-var puntenY = [450, 450, 450, 600, 200];
+var damagePlatformX = [[175, 425, 675, 925], [50]];
+var damagePlatformY = [[250, 250, 250, 250], [50]];
+
+var puntenX = [[300, 550, 800, 400, 700], [700]];
+var puntenY = [[450, 450, 450, 600, 200], [700]];
 
 var regenX = [300, 756, 600, 300, 200, 456, 784, 0, 0, 0, 0, 0 ,0 ,0 , 0];
-var regenY = [100, 200, 150, 43, 178, 32, 94, 0 , 0, 0, 0, 0, 0, 0, 0];
+var regenY = [100, 100, 100, 100, 100, 100, 100, 400, 400, 400, 400, 400, 400, 400];
 
 var platformHoogte = 50;
 var platformBreedte = 100;
@@ -76,17 +80,17 @@ var hoogsteScore = 0;
 /*      functies die je gebruikt in je game      */
 /* ********************************************* */
 
-var rain = function(x,y) {
+/*var rain = function(x,y) {
    ellipse(regenX[x], regenY[y], 10, 10)
 
    if (regenY[y] > 700) {
-       regenY[y] = random(20, 200)
-       regenX[x] = random(20, 1280)
+       regenY[y] = random(0, 20)
+       regenX[x] = random(-5, 1280)
    }
 
    regenX[x] += 2
    regenY[y] += 3.5
-};
+};*/
 
 /**
  * Tekent het speelveld
@@ -204,7 +208,7 @@ var tekenSpeler = function(x, y) {
 
 var tekenPlatform = function(x,y,w,h) {
   fill("orange");
-  rect(platformX[0], y, w, h)
+  rect(platformX[0][0], y, w, h)
 }
 
 /**
@@ -239,14 +243,14 @@ var beweegPlatform = function(x,y) {
     // damagePlatformY[y] += platformSpeedY[y];
     // damagePlatformX[x] += platformSpeedX[x];
 
-    damagePlatformY[y] += platformSpeedY[y];
-    damagePlatformX[x] += platformSpeedY[x];
+    damagePlatformY[levels][y] += platformSpeedY[y];
+    damagePlatformX[levels][x] += platformSpeedY[x];
 
-    if (damagePlatformY[y] > 550) {
+    if (damagePlatformY[levels][y] > 550) {
         platformSpeedY[y] = -3;
     }
     
-    if (damagePlatformY[y] < 350) {
+    if (damagePlatformY[levels][y] < 350) {
         platformSpeedY[y] = 3;
     }
 
@@ -360,8 +364,8 @@ var punten = function(x, y, w, h, p)
         spelerY < y + 1*w)
 
         {score += 1;
-            puntenX.splice(p, 1);
-            puntenY.splice(p, 1);
+            puntenX[levels].splice(p, 1);
+            puntenY[levels].splice(p, 1);
          
     }
 
@@ -445,42 +449,36 @@ function draw() {
       // platform(x, y, w, h)
       // platformSize = [50, 100, 200, 400]
 
-      for(var i = 0; i <regenX.length; i++) {
+      /*for(var i = 0; i <regenX.length; i++) {
           rain(i,i)
-      }
+      }*/
 
       switch(level) {
 
       case EERSTELEVEL:
 
+      if (keyIsDown(SPACEBAR) && levels < 1) {levels += 1}
 
-      for(var i = 0; i <damagePlatformX.length; i++) {
-      damagePlatform(damagePlatformX[i], damagePlatformY[i], 100, 50)
+      for(var i = 0; i <damagePlatformX[levels].length; i++) {
+      damagePlatform(damagePlatformX[levels][i], damagePlatformY[levels][i], 100, 50)
       }
 
-      for(var i = 0; i <platformX.length; i++) {
-      platform(platformX[i], platformY[i], 100, 50)
+      for(var i = 0; i <platformX[levels].length; i++) {
+      platform(platformX[levels][i], platformY[levels][i], 100, 50)
       }
 
-      for(var i = 0; i <puntenX.length; i++) {
-      punten(puntenX[i], puntenY[i], 20, 20, i)
+      for(var i = 0; i <puntenX[levels].length; i++) {
+      punten(puntenX[levels][i], puntenY[levels][i], 20, 20, i)
       }
 
-      for(var i = 0; i <damagePlatformY.length; i++) {
+      for(var i = 0; i <damagePlatformY[levels].length; i++) {
       beweegPlatform(i,i)
     }
       
     damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
 }
       
-      /*if (spelerX > 1260 - spelerSize/2) {
-          level = TWEEDELEVEL;
-          spawnX = 100;
-          spawnY = 500;
-          spelerX = 20 + spelerSize/2;
-      }
-
-      if (spelerX < 20 + spelerSize/2) {
+      /*if (spelerX < 20 + spelerSize/2) {
           level = DERDELEVEL;
           spawnX = 1280 - 100;
           spawnY = 500;
@@ -536,8 +534,8 @@ function draw() {
         spelStatus = SPELEN;
         hp = 5;
         score = 0;
-        puntenX = [300, 550, 800, 400, 700];
-        puntenY = [450, 450, 450, 600, 200];
+        puntenX = [[700], [300, 550, 800, 400, 700]];
+        puntenY = [[700], [450, 450, 450, 600, 200]];
     }
   }
 }
