@@ -42,16 +42,21 @@ var platformSpeedY = [2, 2, 2, 2];
 var platformSpeedX = [2, 2, 2, 2];
 
 var platformX = [[50, 300, 550, 800, 1050], 
-                 [50, 250, 50, 250, 700, 950, 1125,      500, 500, 500, 500, 500, 500, 500, 800, 800, 800, 800]];
+                 [50, 250, 50, 250, 700, 950, 1125,     500, 500, 500, 500, 500, 500, 500, 800, 800, 800, 800]];
 
 var platformY = [[500, 500, 500, 500, 500], 
-                 [500, 400, 300, 200, 550, 550, 450,  550, 500, 450, 400, 350, 300, 250, 400, 350, 300, 250]];
+                 [500, 400, 300, 200, 550, 550, 450,    550, 500, 450, 400, 350, 300, 250, 400, 350, 300, 250]];
 
-var damagePlatformX = [[175, 425, 675, 925], [500, 600, 700, 800]];
-var damagePlatformY = [[250, 250, 250, 250], [200, 250, 400, 200]];
+var damagePlatformX = [[175, 425, 675, 925], 
+                       [500, 600, 700, 800]];
+var damagePlatformY = [[250, 250, 250, 250], 
+                       [200, 250, 400, 200]];
 
-var puntenX = [[300, 550, 800, 400, 700], [700]];
-var puntenY = [[450, 450, 450, 600, 200], [700]];
+var puntenX = [[300, 550, 800, 400, 700],
+               [100, 300, 100, 300, 650, 750, ]];
+var puntenY = [[450, 450, 450, 600, 200], 
+               [450, 350, 250, 150, 425, 275, ]];
+
 
 var regenX = [300, 756, 600, 300, 200, 456, 784, 0, 0, 0, 0, 0 ,0 ,0 , 0];
 var regenY = [100, 100, 100, 100, 100, 100, 100, 400, 400, 400, 400, 400, 400, 400];
@@ -98,18 +103,6 @@ var hoogsteScore = 0;
 var tekenVeld = function () {
   fill(43, 47, 119);
   rect(20, 20, width - 2 * 20, height - 2 * 20);
-
-  /*var sterren = function(x, y) {
-      fill(187,224,255)
-      rect(x + 2.5, y, 5, 5);
-      rect(x - 2.5, y, 5, 5);
-      rect(x, y + 2.5, 5, 5);
-      rect(x, y - 2.5, 5, 5);
-      rect(x, y, 5, 5);
-  };
-
-  sterren(300, 800);
-  sterren(600, 300);*/
 
   /* dit is de grond*/
   fill("green");
@@ -263,10 +256,6 @@ var beweegPlatform = function(x,y) {
     }*/
 
 }
-
-/*var dash = function() {if (keyIsPressed) {
-        if (keyCode === SPACEBAR) {spelerX += 20}} 
-};*/
 
 var jumpHoogte = 8.5 + 2.5;
 var speedJump = 0;
@@ -434,8 +423,7 @@ function draw() {
       tekenVijand(vijandX, vijandY);
       tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
-      // tekenPlatform(platformX, platformY, 100, 50)
-      /*dash();*/
+      // tekenPlatform(platformX, platformY, 100, 50
       jumpSpeler();
       
       // dit zijn de borders
@@ -476,6 +464,11 @@ function draw() {
     }*/
       
     damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
+
+    if (spelerX > 1260) {
+        spelerX = 100; 
+        spelerY = 500;
+        levels += 1;}
 }
       
       /*if (spelerX < 20 + spelerSize/2) {
