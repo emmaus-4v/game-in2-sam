@@ -20,7 +20,7 @@
 const UITLEG = 0;
 const SPELEN = 1;
 const GAMEOVER = 2;
-var spelStatus = SPELEN;
+var spelStatus = UITLEG;
 var levels = 0;
 
 const EERSTELEVEL = 0;
@@ -38,8 +38,8 @@ var spelerY = 500; // y-positie van speler
 var spawnX = 100;
 var spawnY = 500;
 
-var platformSpeedY = [2, 2, 2, 2];
-var platformSpeedX = [2, 2, 2, 2];
+var platformSpeedY = [[0], [0]];
+var platformSpeedX = [[10], [0]];
 
 var platformX = [[50, 300, 550, 800, 1050], 
                  [50, 250, 50, 250, 700, 950, 1125,     500, 500, 500, 500, 500, 500, 500, 800, 800, 800, 800]];
@@ -47,14 +47,14 @@ var platformX = [[50, 300, 550, 800, 1050],
 var platformY = [[500, 500, 500, 500, 500], 
                  [500, 400, 300, 200, 550, 550, 450,    550, 500, 450, 400, 350, 300, 250, 400, 350, 300, 250]];
 
-var damagePlatformX = [[175, 425, 675, 925], 
+var damagePlatformX = [[300], 
                        [500, 600, 700, 800]];
-var damagePlatformY = [[250, 250, 250, 250], 
+var damagePlatformY = [[450], 
                        [200, 250, 400, 200]];
 
-var puntenX = [[300, 550, 800, 400, 700],
+var puntenX = [[100, 350, 600, 850, 1100],
                [100, 300, 100, 300, 650, 750, ]];
-var puntenY = [[450, 450, 450, 600, 200], 
+var puntenY = [[450, 450, 450, 450, 450], 
                [450, 350, 250, 150, 425, 275, ]];
 
 
@@ -231,20 +231,20 @@ var beweegSpeler = function() {
     }
 };
 
-var beweegPlatform = function(x,y) {
+var beweegPlatform = function() {
     // platformX[x] += platformSpeed;
     // damagePlatformY[y] += platformSpeedY[y];
     // damagePlatformX[x] += platformSpeedX[x];
 
-    damagePlatformY[levels][y] += platformSpeedY[y];
-    damagePlatformX[levels][x] += platformSpeedY[x];
+    damagePlatformY[levels][0] += platformSpeedY[levels][0];
+    damagePlatformX[levels][0] += platformSpeedX[levels][0];
 
-    if (damagePlatformY[levels][y] > 550) {
-        platformSpeedY[y] = -3;
+    if (damagePlatformX[levels][0] > 1050) {
+        platformSpeedX[levels][0] = -8;
     }
     
-    if (damagePlatformY[levels][y] < 350) {
-        platformSpeedY[y] = 3;
+    if (damagePlatformX[levels][0] < 300) {
+        platformSpeedX[levels][0] = 8;
     }
 
     /*if (damagePlatformX[x] > 1000) {
@@ -398,6 +398,21 @@ function draw() {
   switch (spelStatus) {
     case UITLEG:
 
+    if (keyIsDown(KEY_UP)) {spelStatus = SPELEN;}
+    fill(175, 175, 175)
+    textSize(30)
+    text("Gebruik de linker en rechter pijltjes om heen en weer te bewegen. Met pijltje omhoog kan je springen. De langer je het pijltje ingedrukt houd de hoger je karakter springt.", 40, 20, 1240, 700)
+    text("Druk op spacebar om de game te starten.", 40, 150, 1240, 700)
+
+    text("Dit is een normaal platform waar je op kan springen", 325, 265, 700, 700)
+
+    text("Dit is een damageplatform. Als je het platform aanraakt dan verlies je 1 hp en wordt je teruggestuurd naar het begin van het level. Bij een game over wordt je teruggetsuurd naar het allereerste level", 325, 375, 900, 700 )
+
+    text("Dit is een punt. als je deze oppakt dan gaat je score plus 1.", 325, 550, 1000, 700)
+
+    platform(150, 250, 100, 50)
+    damagePlatform(150, 375, 100, 50)
+    punten(200, 550, 20, 20)
     break;
 
     case SPELEN: 
@@ -459,9 +474,7 @@ function draw() {
       punten(puntenX[levels][i], puntenY[levels][i], 20, 20, i)
       }
 
-      /*for(var i = 0; i <damagePlatformY[levels].length; i++) {
-      beweegPlatform(i,i)
-    }*/
+      beweegPlatform()
       
     damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
 
@@ -517,7 +530,7 @@ function draw() {
         }
 
         text ("Highscore: " + hoogsteScore, 640 - 175, 560, 700, 700);
-        level = EERSTELEVEL;
+        levels = 0;
         spelerX = 100;
         spelerY = 500;
         spawnX = 100;
