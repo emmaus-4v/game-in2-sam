@@ -31,7 +31,9 @@ var level = EERSTELEVEL;
 const KEY_LEFT = 37;
 const KEY_RIGHT = 39;
 const KEY_UP = 38;
+const KEY_DOWN = 40;
 const SPACEBAR = 32;
+const S_KEY = 83;
 
 var spelerX = 100; // x-positie van speler
 var spelerY = 500; // y-positie van speler
@@ -51,17 +53,24 @@ var platformY = [[500, 500, 500, 500, 500],
 
 var damagePlatformX = [[300], 
                        [500, 600, 700, 800],
-                       [20]];
+                       []];
 var damagePlatformY = [[450], 
                        [200, 250, 400, 200],
-                       [20]];
+                       []];
+
+
+var stekelPlatformenX = [200, 500, 800];
+var stekelPlatformenY = [450, 350, 250];
+
+var stekelPlatformen2X = [350, 650];
+var stekelPlatformen2Y = [400, 300];
 
 var puntenX = [[100, 350, 600, 850, 1100],
                [100, 300, 100, 300, 650, 750, ],
-               [30]];
+               [250, 550, 850]];
 var puntenY = [[450, 450, 450, 450, 450], 
                [450, 350, 250, 150, 425, 275, ],
-               [30]];
+               [400, 300, 200]];
 
 
 var regenX = [300, 756, 600, 300, 200, 456, 784, 0, 0, 0, 0, 0 ,0 ,0 , 0];
@@ -421,7 +430,8 @@ function draw() {
   switch (spelStatus) {
     case UITLEG:
 
-    if (keyIsDown(KEY_UP)) {spelStatus = SPELEN;}
+    background(0,0,0);
+    if (keyIsDown(SPACEBAR)) {spelStatus = SPELEN;}
     fill(175, 175, 175)
     textSize(30)
     text("Gebruik de linker en rechter pijltjes om heen en weer te bewegen. Met pijltje omhoog kan je springen. De langer je het pijltje ingedrukt houd de hoger je karakter springt.", 40, 20, 1240, 700)
@@ -429,7 +439,7 @@ function draw() {
 
     text("Dit is een normaal platform waar je op kan springen", 325, 265, 700, 700)
 
-    text("Dit is een damageplatform. Als je het platform aanraakt dan verlies je 1 hp en wordt je teruggestuurd naar het begin van het level. Bij een game over wordt je teruggetsuurd naar het allereerste level", 325, 375, 900, 700 )
+    text("Dit is een damageplatform. Als je het platform aanraakt dan verlies je 1 hp en wordt je teruggestuurd naar het begin van het level. Bij een game over wordt je teruggestuurd naar het allereerste level", 325, 375, 900, 700 )
 
     text("Dit is een punt. als je deze oppakt dan gaat je score plus 1.", 325, 550, 1000, 700)
 
@@ -461,7 +471,6 @@ function draw() {
       tekenVijand(vijandX, vijandY);
       tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
-      // tekenPlatform(platformX, platformY, 100, 50
       jumpSpeler();
       
       // dit zijn de borders
@@ -471,12 +480,18 @@ function draw() {
           rain(i,i)
       }*/
 
-      if (keyIsDown(SPACEBAR) && levels < 1) {levels += 1}
-
+      if (keyIsDown(S_KEY) && levels < 2) {levels += 1};
+      if (keyIsDown(49)) {spelStatus = UITLEG;};
 
       if (levels === 2) {
-      stekelPlatform(300, 350);
-      stekelPlatform2(400, 450);}
+
+        for(var i = 0; i <stekelPlatformenX.length; i++) {
+      stekelPlatform(stekelPlatformenX[i], stekelPlatformenY[i])
+      }
+
+      for(var i = 0; i <stekelPlatformen2X.length; i++) {
+      stekelPlatform2(stekelPlatformen2X[i], stekelPlatformen2Y[i])
+      }}
 
       for(var i = 0; i <damagePlatformX[levels].length; i++) {
       damagePlatform(damagePlatformX[levels][i], damagePlatformY[levels][i], 100, 50)
@@ -529,11 +544,15 @@ function draw() {
         spawnY = 500
 
     if (keyIsPressed && keyCode === SPACEBAR) {
-        spelStatus = UITLEG;
+        spelStatus = SPELEN;
         hp = 5;
         score = 0;
-        puntenX = [[700], [300, 550, 800, 400, 700]];
-        puntenY = [[700], [450, 450, 450, 600, 200]];
+        puntenX = [[100, 350, 600, 850, 1100],
+               [100, 300, 100, 300, 650, 750, ],
+               []];
+        puntenY = [[450, 450, 450, 450, 450], 
+               [450, 350, 250, 150, 425, 275, ],
+               []];
     }
   }
 }
