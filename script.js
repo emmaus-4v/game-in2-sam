@@ -456,10 +456,6 @@ function draw() {
           rain(i,i)
       }*/
 
-      switch(level) {
-
-      case EERSTELEVEL:
-
       if (keyIsDown(SPACEBAR) && levels < 1) {levels += 1}
 
       for(var i = 0; i <damagePlatformX[levels].length; i++) {
@@ -482,29 +478,6 @@ function draw() {
         spelerX = 100; 
         spelerY = 500;
         levels += 1;}
-}
-      
-      /*if (spelerX < 20 + spelerSize/2) {
-          level = DERDELEVEL;
-          spawnX = 1280 - 100;
-          spawnY = 500;
-          spelerX = 1260 - spelerSize/2;
-      }
-      break;
-    
-      case TWEEDELEVEL:
-
-      damagePlatform(300, 500, 300, 70)
-
-      break;
-
-      case DERDELEVEL:
-
-      platform(550, 300, platformSize[1], platformSize[0])
-      platform(1000, 40, platformSize[1], platformSize[0])
-      platform(300, 500, platformSize[1], platformSize[0])
-      damagePlatform(700, 500, 300, 70)
-    }*/
 
       textSize(30)
       fill(200, 200, 200)
