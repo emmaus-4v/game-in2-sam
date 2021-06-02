@@ -38,24 +38,30 @@ var spelerY = 500; // y-positie van speler
 var spawnX = 100;
 var spawnY = 500;
 
-var platformSpeedY = [[0], [0]];
-var platformSpeedX = [[10], [0]];
+var platformSpeedY = [[0], [0], [0]];
+var platformSpeedX = [[10], [0], [0]];
 
 var platformX = [[50, 300, 550, 800, 1050], 
-                 [50, 250, 50, 250, 700, 950, 1125,     500, 500, 500, 500, 500, 500, 500, 800, 800, 800, 800]];
+                 [50, 250, 50, 250, 700, 950, 1125,     500, 500, 500, 500, 500, 500, 500, 800, 800, 800, 800],
+                 [50]];
 
 var platformY = [[500, 500, 500, 500, 500], 
-                 [500, 400, 300, 200, 550, 550, 450,    550, 500, 450, 400, 350, 300, 250, 400, 350, 300, 250]];
+                 [500, 400, 300, 200, 550, 550, 450,    550, 500, 450, 400, 350, 300, 250, 400, 350, 300, 250],
+                 [500]];
 
 var damagePlatformX = [[300], 
-                       [500, 600, 700, 800]];
+                       [500, 600, 700, 800],
+                       [20]];
 var damagePlatformY = [[450], 
-                       [200, 250, 400, 200]];
+                       [200, 250, 400, 200],
+                       [20]];
 
 var puntenX = [[100, 350, 600, 850, 1100],
-               [100, 300, 100, 300, 650, 750, ]];
+               [100, 300, 100, 300, 650, 750, ],
+               [30]];
 var puntenY = [[450, 450, 450, 450, 450], 
-               [450, 350, 250, 150, 425, 275, ]];
+               [450, 350, 250, 150, 425, 275, ],
+               [30]];
 
 
 var regenX = [300, 756, 600, 300, 200, 456, 784, 0, 0, 0, 0, 0 ,0 ,0 , 0];
@@ -115,9 +121,16 @@ var tekenVeld = function () {
 
 var borders = function () {
     if (spelerX < 20 + spelerSize/2) {spelerX = 20 + spelerSize/2;}
-    if (spelerX > 1260 - spelerSize/2) {spelerX = 1260 - spelerSize/2;}
     if (spelerY < 20 + spelerSize/2) {spelerY = 20 + spelerSize/2;}
     if (spelerY > 600 - spelerSize/2) {spelerY = 600 - spelerSize/2;};
+
+    fill("orange")
+    rect(0, 0, 20, 720)
+    rect(0, 0, 1280, 20)
+    rect(0, 700, 1280, 20)
+
+    platform(1260, 0, 20, 300)
+    platform(1260, 420, 20, 300)
 };
 
 var platform = function(x, y, w, h) {
@@ -163,6 +176,18 @@ if (spelerX > x - 5 - spelerSize/2 &&
     fill("orange")
     rect(x, y, w, h)
 };
+
+
+var stekelPlatform = function(x, y) {
+    platform(x, y, 100, 50)
+    damagePlatform(x, y - 20, 20, 20)
+    damagePlatform(x + 80, y - 20, 20, 20)
+}
+
+var stekelPlatform2 = function(x, y) {
+    platform(x, y, 100, 50)
+    damagePlatform(x + 35, y - 20, 30, 20)
+}
 
 /**
  * Tekent de vijand
@@ -360,7 +385,6 @@ var punten = function(x, y, w, h, p)
 
       fill(187,224,255)
       ellipse(x, y, w, h);
-      // rect(x - 0.375*w, y - 0.375*h, 0.625*w, 0.625*h)
 };
 
 /**
@@ -384,8 +408,7 @@ function setup() {
   createCanvas(1280, 720);
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
-  background('black');
-
+  background("black");
 }
 
 
@@ -442,21 +465,18 @@ function draw() {
       jumpSpeler();
       
       // dit zijn de borders
-      platform(0, 0, 20, 300)
-      platform(1260, 0, 20, 300)
-      platform(0, 0, 1280, 20)
-      platform(0, 700, 1280, 20)
-
-      platform(0, 420, 20, 300)
-      platform(1260, 420, 20, 300)
-      // platform(x, y, w, h)
-      // platformSize = [50, 100, 200, 400]
+      borders();
 
       /*for(var i = 0; i <regenX.length; i++) {
           rain(i,i)
       }*/
 
       if (keyIsDown(SPACEBAR) && levels < 1) {levels += 1}
+
+
+      if (levels === 2) {
+      stekelPlatform(300, 350);
+      stekelPlatform2(400, 450);}
 
       for(var i = 0; i <damagePlatformX[levels].length; i++) {
       damagePlatform(damagePlatformX[levels][i], damagePlatformY[levels][i], 100, 50)
@@ -497,7 +517,6 @@ function draw() {
         text("game over", 640 - 175, 360, 700, 700);
         text("score: " + score, 640 - 175, 460, 700, 700);
 
-
         if (score > hoogsteScore) {
             hoogsteScore = score;
         }
@@ -510,7 +529,7 @@ function draw() {
         spawnY = 500
 
     if (keyIsPressed && keyCode === SPACEBAR) {
-        spelStatus = SPELEN;
+        spelStatus = UITLEG;
         hp = 5;
         score = 0;
         puntenX = [[700], [300, 550, 800, 400, 700]];
