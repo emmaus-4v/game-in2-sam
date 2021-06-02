@@ -480,8 +480,13 @@ function draw() {
           rain(i,i)
       }*/
 
-      if (keyIsDown(S_KEY) && levels < 2) {levels += 1};
-      if (keyIsDown(49)) {spelStatus = UITLEG;};
+      if (keyIsDown(S_KEY)) {spelStatus = UITLEG;};
+
+      for(var i = 0; i < 10; i++) {
+      if (keyIsDown(49 + i) && levels !== i) {levels = i;
+      spelerX = 100;
+      spelerY = 500;}
+      }
 
       if (levels === 2) {
 
