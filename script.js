@@ -40,8 +40,8 @@ var spelerY = 500; // y-positie van speler
 var spawnX = 100;
 var spawnY = 500;
 
-var platformSpeedY = [[0], [0], [0], [0]];
-var platformSpeedX = [[10], [0], [0], [0]];
+var platformSpeedY = [[0], [0], [0], [4, 4, 4, 4]];
+var platformSpeedX = [[10], [0], [0], [4, 4, 4, 4]];
 
 var platformX = [[50, 300, 550, 800, 1050], 
                  [50, 250, 50, 250, 700, 950, 1125,     /*500, 500, 500, 500, 500, 500, 500, 800, 800, 800, 800*/],
@@ -271,22 +271,29 @@ var beweegSpeler = function() {
     }
 };
 
-var beweegPlatform = function() {
+var beweegPlatform = function(x, y, speedX, speedY, linkerX, rechterX, benedenY, bovenY) {
     // platformX[x] += platformSpeed;
     // damagePlatformY[y] += platformSpeedY[y];
     // damagePlatformX[x] += platformSpeedX[x];
 
-    damagePlatformY[levels][0] += platformSpeedY[levels][0];
-    damagePlatformX[levels][0] += platformSpeedX[levels][0];
+    damagePlatformY[levels][y] += platformSpeedY[levels][y];
+    damagePlatformX[levels][x] += platformSpeedX[levels][x];
 
-    if (damagePlatformX[levels][0] > 1050) {
-        platformSpeedX[levels][0] = -8;
+    if (damagePlatformX[levels][x] > rechterX) {
+        platformSpeedX[levels][x] = -speedX;
     }
     
-    if (damagePlatformX[levels][0] < 300) {
-        platformSpeedX[levels][0] = 8;
+    if (damagePlatformX[levels][x] < linkerX) {
+        platformSpeedX[levels][x] = speedX;
     }
 
+    if (damagePlatformY[levels][y] > benedenY) {
+        platformSpeedY[levels][y] = -speedY;
+    }
+    
+    if (damagePlatformY[levels][y] < bovenY) {
+        platformSpeedY[levels][y] = speedY;
+    }
     /*if (damagePlatformX[x] > 1000) {
         platformSpeedX[x] = -3;
     }
@@ -495,7 +502,7 @@ function draw() {
       }
 
       if (levels === 0) {
-          beweegPlatform()
+          beweegPlatform(0, 0, 8, 0, 300, 1050, 0, 0)
       }
 
       if (levels === 1) {
@@ -515,9 +522,14 @@ function draw() {
 
       if (levels === 3) {
 
-          if (damagePlatformX[3][i] > 200) {
+        for(var i = 0; i <damagePlatformX[levels].length; i++) {
+          beweegPlatform(i, i, 0, 4, 0, 0, 650, 350)
+        }
+      }
 
-          }
+      if (levels === 4) {
+
+        
       }
 
       for(var i = 0; i <damagePlatformX[levels].length; i++) {
