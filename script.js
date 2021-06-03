@@ -40,27 +40,34 @@ var spelerY = 500; // y-positie van speler
 var spawnX = 100;
 var spawnY = 500;
 
-var platformSpeedY = [[0], [0], [0], [4, 4, 4, 4]];
-var platformSpeedX = [[10], [0], [0], [4, 4, 4, 4]];
+var damagePlatformSpeedY = [[0], [0], [0], [4, 4, 4, 4], []];
+var damagePlatformSpeedX = [[10], [0], [0], [4, 4, 4, 4], []];
+
+var platformSpeedY = [[0], [0], [0], [4, 4, 4, 4], [2, 2, 20]];
+var platformSpeedX = [[10], [0], [0], [4, 4, 4, 4], [2, 2, 20]];
 
 var platformX = [[50, 300, 550, 800, 1050], 
-                 [50, 250, 50, 250, 700, 950, 1125,     /*500, 500, 500, 500, 500, 500, 500, 800, 800, 800, 800*/],
+                 [50, 250, 50, 250, 700, 950, 1125],
                  [50],
-                 [50, 300, 550, 800, 1050]];
+                 [50, 300, 550, 800, 1050],
+                 [50, 100, 300]];
 
 var platformY = [[500, 500, 500, 500, 500], 
-                 [500, 400, 300, 200, 550, 550, 450,    /*550, 500, 450, 400, 350, 300, 250, 400, 350, 300, 250*/],
+                 [500, 400, 300, 200, 550, 550, 450],
                  [500],
-                 [500, 500, 500, 500, 500]];
+                 [500, 500, 500, 500, 500],
+                 [500, 400, 500]];
 
 var damagePlatformX = [[300], 
                        [500, 600, 700, 800],
                        [],
-                       [175, 425, 675, 925]];
+                       [175, 425, 675, 925],
+                       []];
 var damagePlatformY = [[450], 
                        [200, 250, 400, 200],
                        [],
-                       [350, 350, 350, 350]];
+                       [350, 350, 350, 350],
+                       []];
 
 
 var stekelPlatformenX = [200, 500, 800];
@@ -72,11 +79,13 @@ var stekelPlatformen2Y = [400, 300];
 var puntenX = [[100, 350, 600, 850, 1100],
                [100, 300, 100, 300, 650, 750, ],
                [250, 550, 850],
-               [100, 350, 600, 850, 1100]];
+               [100, 350, 600, 850, 1100],
+               []];
 var puntenY = [[450, 450, 450, 450, 450], 
                [450, 350, 250, 150, 425, 275, ],
                [400, 300, 200],
-               [450, 450, 450, 450, 450]];
+               [450, 450, 450, 450, 450],
+               []];
 
 
 var regenX = [300, 756, 600, 300, 200, 456, 784, 0, 0, 0, 0, 0 ,0 ,0 , 0];
@@ -271,28 +280,28 @@ var beweegSpeler = function() {
     }
 };
 
-var beweegPlatform = function(x, y, speedX, speedY, linkerX, rechterX, benedenY, bovenY) {
+var beweegDamagePlatform = function(x, y, speedX, speedY, linkerX, rechterX, benedenY, bovenY) {
     // platformX[x] += platformSpeed;
     // damagePlatformY[y] += platformSpeedY[y];
     // damagePlatformX[x] += platformSpeedX[x];
 
-    damagePlatformY[levels][y] += platformSpeedY[levels][y];
-    damagePlatformX[levels][x] += platformSpeedX[levels][x];
+    damagePlatformY[levels][y] += damagePlatformSpeedY[levels][y];
+    damagePlatformX[levels][x] += damagePlatformSpeedX[levels][x];
 
     if (damagePlatformX[levels][x] > rechterX) {
-        platformSpeedX[levels][x] = -speedX;
+        damagePlatformSpeedX[levels][x] = -speedX;
     }
     
     if (damagePlatformX[levels][x] < linkerX) {
-        platformSpeedX[levels][x] = speedX;
+        damagePlatformSpeedX[levels][x] = speedX;
     }
 
     if (damagePlatformY[levels][y] > benedenY) {
-        platformSpeedY[levels][y] = -speedY;
+        damagePlatformSpeedY[levels][y] = -speedY;
     }
     
     if (damagePlatformY[levels][y] < bovenY) {
-        platformSpeedY[levels][y] = speedY;
+        damagePlatformSpeedY[levels][y] = speedY;
     }
     /*if (damagePlatformX[x] > 1000) {
         platformSpeedX[x] = -3;
@@ -301,6 +310,29 @@ var beweegPlatform = function(x, y, speedX, speedY, linkerX, rechterX, benedenY,
     if (damagePlatformX[x] < 350) {
         platformSpeedX[x] = 3;
     }*/
+
+}
+
+var beweegPlatform = function(x, y, speedX, speedY, linkerX, rechterX, benedenY, bovenY) {
+
+    platformY[levels][y] += platformSpeedY[levels][y];
+    platformX[levels][x] += platformSpeedX[levels][x];
+
+    if (platformX[levels][x] > rechterX) {
+        platformSpeedX[levels][x] = -speedX;
+    }
+    
+    if (platformX[levels][x] < linkerX) {
+        platformSpeedX[levels][x] = speedX;
+    }
+
+    if (platformY[levels][y] > benedenY) {
+        platformSpeedY[levels][y] = -speedY;
+    }
+    
+    if (platformY[levels][y] < bovenY) {
+        platformSpeedY[levels][y] = speedY;
+    }
 
 }
 
@@ -502,7 +534,7 @@ function draw() {
       }
 
       if (levels === 0) {
-          beweegPlatform(0, 0, 8, 0, 300, 1050, 0, 0)
+          beweegDamagePlatform(0, 0, 8, 0, 300, 1050, 0, 0)
       }
 
       if (levels === 1) {
@@ -518,18 +550,21 @@ function draw() {
 
       for(var i = 0; i <stekelPlatformen2X.length; i++) {
       stekelPlatform2(stekelPlatformen2X[i], stekelPlatformen2Y[i])
-      }}
+      }
+    }
 
       if (levels === 3) {
 
         for(var i = 0; i <damagePlatformX[levels].length; i++) {
-          beweegPlatform(i, i, 0, 4, 0, 0, 650, 350)
+          beweegDamagePlatform(i, i, 0, 4, 0, 0, 650, 350)
+
+          // beweegPlatform(2,2,4,4, 500, 800, 700, 400)
         }
       }
 
       if (levels === 4) {
-
-        
+        beweegPlatform(1, 1, 2, 2, 0, 200, 500, 300)
+        beweegPlatform(2, 2, 0, 5, 0, 0, 500, 200)
       }
 
       for(var i = 0; i <damagePlatformX[levels].length; i++) {
@@ -587,10 +622,12 @@ function draw() {
         puntenX = [[100, 350, 600, 850, 1100],
                    [100, 300, 100, 300, 650, 750],
                    [250, 550, 850],
+                   [],
                    []];
         puntenY = [[450, 450, 450, 450, 450], 
                    [450, 350, 250, 150, 425, 275],
                    [400, 300, 200],
+                   [],
                    []];
     }
   }
