@@ -20,7 +20,7 @@
 const UITLEG = 0;
 const SPELEN = 1;
 const GAMEOVER = 2;
-var spelStatus = UITLEG;
+var spelStatus = SPELEN;
 var levels = 0;
 
 const EERSTELEVEL = 0;
@@ -44,23 +44,23 @@ var platformSpeedY = [[0], [0], [0], [0]];
 var platformSpeedX = [[10], [0], [0], [0]];
 
 var platformX = [[50, 300, 550, 800, 1050], 
-                 [50, 250, 50, 250, 700, 950, 1125,     500, 500, 500, 500, 500, 500, 500, 800, 800, 800, 800],
+                 [50, 250, 50, 250, 700, 950, 1125,     /*500, 500, 500, 500, 500, 500, 500, 800, 800, 800, 800*/],
                  [50],
                  [50, 300, 550, 800, 1050]];
 
 var platformY = [[500, 500, 500, 500, 500], 
-                 [500, 400, 300, 200, 550, 550, 450,    550, 500, 450, 400, 350, 300, 250, 400, 350, 300, 250],
+                 [500, 400, 300, 200, 550, 550, 450,    /*550, 500, 450, 400, 350, 300, 250, 400, 350, 300, 250*/],
                  [500],
                  [500, 500, 500, 500, 500]];
 
 var damagePlatformX = [[300], 
                        [500, 600, 700, 800],
                        [],
-                       []];
+                       [175, 425, 675, 925]];
 var damagePlatformY = [[450], 
                        [200, 250, 400, 200],
                        [],
-                       []];
+                       [350, 350, 350, 350]];
 
 
 var stekelPlatformenX = [200, 500, 800];
@@ -494,6 +494,15 @@ function draw() {
       spelerY = 500;}
       }
 
+      if (levels === 0) {
+          beweegPlatform()
+      }
+
+      if (levels === 1) {
+          platform(500, 250, 100, 350)
+          platform(800, 250, 100, 200)
+      }
+
       if (levels === 2) {
 
         for(var i = 0; i <stekelPlatformenX.length; i++) {
@@ -503,6 +512,13 @@ function draw() {
       for(var i = 0; i <stekelPlatformen2X.length; i++) {
       stekelPlatform2(stekelPlatformen2X[i], stekelPlatformen2Y[i])
       }}
+
+      if (levels === 3) {
+
+          if (damagePlatformX[3][i] > 200) {
+
+          }
+      }
 
       for(var i = 0; i <damagePlatformX[levels].length; i++) {
       damagePlatform(damagePlatformX[levels][i], damagePlatformY[levels][i], 100, 50)
@@ -515,8 +531,6 @@ function draw() {
       for(var i = 0; i <puntenX[levels].length; i++) {
       punten(puntenX[levels][i], puntenY[levels][i], 20, 20, i)
       }
-
-      beweegPlatform()
       
     damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
 
@@ -560,10 +574,12 @@ function draw() {
         score = 0;
         puntenX = [[100, 350, 600, 850, 1100],
                    [100, 300, 100, 300, 650, 750],
-                   [250, 550, 850]];
+                   [250, 550, 850],
+                   []];
         puntenY = [[450, 450, 450, 450, 450], 
                    [450, 350, 250, 150, 425, 275],
-                   [400, 300, 200]];
+                   [400, 300, 200],
+                   []];
     }
   }
 }
