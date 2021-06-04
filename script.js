@@ -494,6 +494,8 @@ function draw() {
     break;
 
     case SPELEN: 
+
+    background('black')
       beweegVijand();
       beweegKogel();
       beweegSpeler();
