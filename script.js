@@ -20,14 +20,20 @@
 const UITLEG = 0;
 const SPELEN = 1;
 const GAMEOVER = 2;
-var spelStatus = SPELEN;
+var spelStatus = UITLEG;
 var levels = 0;
+
+const GEMIDDELD = 0;
+const MAKKELIJK = 1;
+const HARDMODE = 2;
+var moeilijkheid = GEMIDDELD;
 
 const EERSTELEVEL = 0;
 const TWEEDELEVEL = 1;
 const DERDELEVEL  = 2;
 var level = EERSTELEVEL;
 
+const ENTER = 13;
 const KEY_LEFT = 37;
 const KEY_RIGHT = 39;
 const KEY_UP = 38;
@@ -133,15 +139,33 @@ var hoogsteScore = 0;
 var tekenVeld = function () {
   fill(43, 47, 119);
   rect(20, 20, width - 2 * 20, height - 2 * 20);
-
-  /* dit is de grond*/
-  fill("green");
-  rect(20, 600, width - 2 * 20, height - 2 * 20 - 575);
-  if (spelerY > 600 - spelerSize/2) {
-      spelerY = 600 - spelerSize/2;
-      jumpHoogte = 8.5 + 2.5;
-      speedJump= 0;}
 };
+
+var hardMode = function() {
+        hp = 1;
+        strokeWeight(1.5)
+
+        fill('black')
+        rect(20, 20, width - 40, width - 40)
+
+        fill(150, 100, 50)
+        ellipse(width/2 + 2, 300, 225, 225)
+        fill(150, 0, 0)
+        ellipse(width/2 - 2, 300, 225, 225)
+        fill('black')
+        ellipse(width/2, 300, 220, 220)
+
+        stroke('red')
+        line(width/2, 350, width/2 + 25, 350 - 25)
+        line(width/2, 350, width/2 - 25, 350 - 25)
+        line(width/2, 300, width/2 + 25, 300 - 25)
+        line(width/2, 300, width/2 - 25, 300 - 25)
+        line(width/2, 300, width/2 + 25, 300 + 25)
+        line(width/2, 300, width/2 - 25, 300 + 25)
+        line(width/2 + 25, 275, width/2 + 12.5, 262.5)
+        line(width/2 - 25, 275, width/2 - 12.5, 262.5)
+        line(width/2, 350, width/2, 270)
+}
 
 var borders = function () {
     if (spelerX < 20 + spelerSize/2) {spelerX = 20 + spelerSize/2;}
@@ -476,7 +500,7 @@ function draw() {
     case UITLEG:
 
     background(0,0,0);
-    if (keyIsDown(SPACEBAR)) {spelStatus = SPELEN;}
+    if (keyIsDown(ENTER)) {spelStatus = SPELEN;}
     fill(175, 175, 175)
     textSize(30)
     text("Gebruik de linker en rechter pijltjes om heen en weer te bewegen. Met pijltje omhoog kan je springen. De langer je het pijltje ingedrukt houd de hoger je karakter springt.", 40, 20, 1240, 700)
@@ -491,6 +515,12 @@ function draw() {
     platform(150, 250, 100, 50)
     damagePlatform(150, 375, 100, 50)
     punten(200, 550, 20, 20)
+
+    if (keyIsDown(72)) {
+        moeilijkheid = HARDMODE;}
+    if (keyIsDown(77)) {
+        moeilijkheid = MAKKELIJK;
+      }
     break;
 
     case SPELEN: 
@@ -514,7 +544,23 @@ function draw() {
         speedJump = 40;
       }
 
+      switch (moeilijkheid) {
+      case GEMIDDELD: 
       tekenVeld();
+
+      break;
+
+      case MAKKELIJK: 
+      tekenVeld();
+      hp = 20;
+      moeilijkheid = GEMIDDELD;
+
+      break;
+
+      case HARDMODE: 
+      hardMode();
+      }
+
       tekenVijand(vijandX, vijandY);
       tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
@@ -535,8 +581,10 @@ function draw() {
       spelerY = 500;}
       }
 
-      if (levels === 2) {
-          beweegDamagePlatform(0, 0, 8, 0, 300, 1050, 0, 0)
+      if (levels === 0) {
+        for(var i = 0; i <damagePlatformX[levels].length; i++) {
+          beweegDamagePlatform(i, i, 0, 4, 0, 0, 650, 350)
+        }
       }
 
       if (levels === 1) {
@@ -544,8 +592,11 @@ function draw() {
           platform(800, 250, 100, 200)
       }
 
-      if (levels === 3) {
+      if (levels === 2) {
+          beweegDamagePlatform(0, 0, 8, 0, 300, 1050, 0, 0)
+      }
 
+      if (levels === 3) {
         for(var i = 0; i <stekelPlatformenX.length; i++) {
       stekelPlatform(stekelPlatformenX[i], stekelPlatformenY[i])
       }
@@ -554,15 +605,6 @@ function draw() {
       stekelPlatform2(stekelPlatformen2X[i], stekelPlatformen2Y[i])
       }
     }
-
-      if (levels === 0) {
-
-        for(var i = 0; i <damagePlatformX[levels].length; i++) {
-          beweegDamagePlatform(i, i, 0, 4, 0, 0, 650, 350)
-
-          // beweegPlatform(2,2,4,4, 500, 800, 700, 400)
-        }
-      }
 
       if (levels === 4) {
         beweegPlatform(1, 1, 2, 0, 175, 375, 0, 0)
@@ -583,12 +625,7 @@ function draw() {
       }
       
     damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
-    /*fill('red')
-    ellipse(width/2, 300, 255, 255)
-    fill('black')
-    ellipse(width/2, 300, 250, 250)*/
     
-
     if (spelerX > 1260) {
         spelerX = 100; 
         spelerY = 500;
@@ -609,14 +646,14 @@ function draw() {
         background(0,0,0);
         textSize(75)
         fill(255, 0, 0)
-        text("game over", 640 - 175, 360, 700, 700);
-        text("score: " + score, 640 - 175, 460, 700, 700);
+        text("GAME OVER", 640 - 175, 260, 700, 700);
+        text("Score: " + score, 640 - 175, 360, 700, 700);
 
         if (score > hoogsteScore) {
             hoogsteScore = score;
         }
 
-        text ("Highscore: " + hoogsteScore, 640 - 175, 560, 700, 700);
+        text ("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
         levels = 0;
         spelerX = 100;
         spelerY = 500;
@@ -624,20 +661,21 @@ function draw() {
         spawnY = 500
 
     if (keyIsPressed && keyCode === SPACEBAR) {
-        spelStatus = SPELEN;
+        spelStatus = UITLEG;
+        moeilijkheid = GEMIDDELD;
+        stroke('black');
         hp = 5;
         score = 0;
             puntenX = [[100, 350, 600, 850, 1100],
-               [100, 300, 100, 300, 650, 750, ],
-               [250, 550, 850],
-               [100, 350, 600, 850, 1100],
-               [487.5, 812.5]];
-            puntenY = [[450, 450, 450, 450, 450], 
-               [450, 350, 250, 150, 425, 275, ],
-               [400, 300, 200],
-               [450, 450, 450, 450, 450],
-               [400, 400]];
-
+                       [100, 300, 100, 300, 650, 750, ],
+                       [100, 350, 600, 850, 1100],
+                       [250, 550, 850],
+                       [487.5, 812.5]];
+            puntenY = [[450, 450, 450, 450, 450],
+                       [450, 350, 250, 150, 425, 275, ],
+                       [450, 450, 450, 450, 450], 
+                       [400, 300, 200],
+                       [400, 400]];
     }
   }
 }
