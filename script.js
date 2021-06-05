@@ -643,6 +643,10 @@ function draw() {
       break;
 
     case GAMEOVER:
+        if (moeilijkheid === HARDMODE) {
+            score *= 2
+            moeilijkheid = GEMIDDELD;
+        }
         background(0,0,0);
         textSize(75)
         fill(255, 0, 0)
@@ -662,7 +666,6 @@ function draw() {
 
     if (keyIsPressed && keyCode === SPACEBAR) {
         spelStatus = UITLEG;
-        moeilijkheid = GEMIDDELD;
         stroke('black');
         hp = 5;
         score = 0;
