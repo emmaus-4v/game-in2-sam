@@ -18,10 +18,14 @@
 /* ********************************************* */
 
 const UITLEG = 0;
-const SPELEN = 1;
-const GAMEOVER = 2;
+const MOEILIJKHEIDKIEZEN = 1;
+const SPELEN = 2;
+const GAMEOVER = 3;
 var spelStatus = UITLEG;
 var levels = 0;
+
+var gameStatus = 0;
+const UITGESPEELD = 1
 
 const GEMIDDELD = 0;
 const MAKKELIJK = 1;
@@ -140,6 +144,7 @@ var tekenVeld = function () {
 
 var hardMode = function() {
         hp = 1;
+        gameStatus = 0;
         strokeWeight(1.5)
 
         fill('black')
@@ -469,8 +474,8 @@ function draw() {
   switch (spelStatus) {
     case UITLEG:
 
-    background(0,0,0);
-    if (keyIsDown(ENTER)) {spelStatus = SPELEN;}
+    background('black');
+    if (keyIsDown(ENTER)) {spelStatus = MOEILIJKHEIDKIEZEN;}
     fill(175, 175, 175)
     textSize(30)
     text("Gebruik de linker en rechter pijltjes om heen en weer te bewegen. Met pijltje omhoog kan je springen. De langer je het pijltje ingedrukt houd de hoger je karakter springt.", 40, 20, 1240, 700)
@@ -486,11 +491,30 @@ function draw() {
     damagePlatform(150, 375, 100, 50)
     punten(200, 550, 20, 20)
 
-    if (keyIsDown(72)) {
-        moeilijkheid = HARDMODE;}
-    if (keyIsDown(77)) {
+    break;
+
+    case MOEILIJKHEIDKIEZEN:
+    background('black')
+    fill(175, 175, 175)
+    textSize(30)
+    text("Druk op 1 voor makkelijk. Bij makkelijk heb je 20 hp.", 125, 165, 720, 700)
+
+    text("Druk op 2 voor normaal. Bij normaal heb je 5 hp.", 125, 275, 920, 700 )
+
+    text("Druk op 3 voor moeilijk. Bij moeilijk heb je maar 1 hp dus je moet heel het spel zonder gehit te worden uitspelen. Bij moeilijk veranderd het uiterlijk van de game ook.", 125, 400, 1020, 700)
+
+    if (keyIsDown(49)) {
         moeilijkheid = MAKKELIJK;
-      }
+        spelStatus = SPELEN;
+    }
+    if (keyIsDown(50)) {
+        moeilijkheid = GEMIDDELD;
+        spelStatus = SPELEN;
+    }
+    if (keyIsDown(51)) {
+        moeilijkheid = HARDMODE;
+        spelStatus = SPELEN;
+    }
     break;
 
     case SPELEN: 
@@ -542,11 +566,13 @@ function draw() {
 
       if (keyIsDown(S_KEY)) {spelStatus = UITLEG;};
 
+      if (gameStatus === UITGESPEELD) {
       for(var i = 0; i < 10; i++) {
       if (keyIsDown(49 + i) && levels !== i) {levels = i;
       spelerX = 100;
       spelerY = 500;}
       }
+    }
 
       if (levels === 0) {
         for(var i = 0; i <damagePlatformX[levels].length; i++) {
@@ -608,10 +634,15 @@ function draw() {
       fill(200, 200, 200)
       text("hp = " + hp, 40, 40, 200, 200)
       text("score = " + score, 40, 80, 400, 200)
+      text("level " + (levels + 1), width/2 - 100, 40, 200, 200)
       spelerY += 3.25
 
       if (checkGameOver()) {
         spelStatus = GAMEOVER;
+      }
+
+      if (levels === 5) {
+          gameStatus = UITGESPEELD;
       }
       break;
 
