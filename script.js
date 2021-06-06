@@ -479,7 +479,7 @@ function draw() {
     fill(175, 175, 175)
     textSize(30)
     text("Gebruik de linker en rechter pijltjes om heen en weer te bewegen. Met pijltje omhoog kan je springen. De langer je het pijltje ingedrukt houd de hoger je karakter springt.", 40, 20, 1240, 700)
-    text("Druk op spacebar om de game te starten.", 40, 150, 1240, 700)
+    text("Druk op enter om verder te gaan.", 40, 150, 1240, 700)
 
     text("Dit is een normaal platform waar je op kan springen", 325, 265, 700, 700)
 
