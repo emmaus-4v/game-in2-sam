@@ -21,8 +21,12 @@ const UITLEG = 0;
 const MOEILIJKHEIDKIEZEN = 1;
 const SPELEN = 2;
 const GAMEOVER = 3;
+const WINSCHERM = 4;
 var spelStatus = UITLEG;
 var levels = 0;
+
+var tijd = 0;
+var snelstetijd = 10000;
 
 var gameStatus = 0;
 const UITGESPEELD = 1
@@ -133,6 +137,10 @@ var hoogsteScore = 0;
    regenX[x] += 2
    regenY[y] += 3.5
 };*/
+
+var timer = function() {
+tijd += (1/54)
+}
 
 /**
  * Tekent het speelveld
@@ -497,6 +505,7 @@ function draw() {
     background('black')
     fill(175, 175, 175)
     textSize(30)
+    tijd = 0;
     text("Druk op 1 voor makkelijk. Bij makkelijk heb je 20 hp.", 125, 165, 720, 700)
 
     text("Druk op 2 voor normaal. Bij normaal heb je 5 hp.", 125, 275, 920, 700 )
@@ -635,6 +644,9 @@ function draw() {
       text("hp = " + hp, 40, 40, 200, 200)
       text("score = " + score, 40, 80, 400, 200)
       text("level " + (levels + 1), width/2 - 100, 40, 200, 200)
+
+      timer()
+      text("" + Math.round(tijd*100)/100, width - 125, 35, 200, 200)
       spelerY += 3.25
 
       if (checkGameOver()) {
@@ -656,18 +668,24 @@ function draw() {
         fill(255, 0, 0)
         text("GAME OVER", 640 - 175, 260, 700, 700);
         text("Score: " + score, 640 - 175, 360, 700, 700);
+        text("tijd: " + Math.round(tijd*100)/100, 640 - 175, 560, 700, 700)
 
         if (score > hoogsteScore) {
             hoogsteScore = score;
         }
 
-        text ("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
+        if (tijd < snelstetijd) {
+            snelstetijd = tijd;
+        }
+
+        text("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
+        text("snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 175, 660, 700, 700)
         levels = 0;
         spelerX = 100;
         spelerY = 500;
 
     if (keyIsPressed && keyCode === SPACEBAR) {
-        spelStatus = UITLEG;
+        spelStatus = MOEILIJKHEIDKIEZEN;
         stroke('black');
         hp = 5;
         score = 0;
@@ -686,5 +704,9 @@ function draw() {
                        [],
                        []];
     }
+     break;
+
+     case WINSCHERM: 
+rect(400, 4000, 400, 400)
   }
 }
