@@ -50,38 +50,66 @@ var spelerY = 500; // y-positie van speler
 var jumpHoogte = 8.5 + 2.5;
 var speedJump = 0;
 
-var damagePlatformSpeedY = [[4, 4, 4, 4], [0], [0], [0], [], []];
-var damagePlatformSpeedX = [[4, 4, 4, 4], [8], [8], [10], [], []];
+var damagePlatformSpeedY = [[4, 4, 4, 4], 
+                            [0], 
+                            [0], 
+                            [0], 
+                            [], 
+                            [], 
+                            [10, 10, 10, 10, 10, 10, 10, 10]];
+var damagePlatformSpeedX = [[4, 4, 4, 4], 
+                            [8], 
+                            [8], 
+                            [10], 
+                            [], 
+                            [], 
+                            [0, 0, 0, 0, 0, 0, 0, 0]];
 
-var platformSpeedY = [[4, 4, 4, 4], [0], [0], [0], [0, 2, 2, 2, 0], [3.25, 3.25, 3.25, 3.25, 3.25]];
-var platformSpeedX = [[4, 4, 4, 4], [0], [0], [0], [0, 2, 2, 2, 0], [0, 0, 0, 0, 0]];
+var platformSpeedY = [[4, 4, 4, 4], 
+                      [0], 
+                      [0], 
+                      [0],
+                      [0, 2, 2, 2, 0],
+                      [3.25, 3.25, 3.25, 3.25, 3.25],
+                      []];
+var platformSpeedX = [[4, 4, 4, 4], 
+                      [0], 
+                      [0], 
+                      [0], 
+                      [0, 2, 2, 2, 0], 
+                      [0, 0, 0, 0, 0], 
+                      []];
 
 var platformX = [[50, 300, 550, 800, 1050],
                  [50, 250, 50, 250, 700, 950, 1125],
                  [50, 300, 550, 800, 1050], 
                  [50],
                  [50, 175, 700, 825],
-                 [50, 300, 550, 800, 1050]];
+                 [50, 300, 550, 800, 1050],
+                 []];
 
 var platformY = [[500, 500, 500, 500, 500],
                  [500, 400, 300, 200, 550, 550, 450],
                  [500, 500, 500, 500, 500], 
                  [500],
                  [500, 500, 500, 500],
-                 [500, 500, 500, 500, 500]];
+                 [500, 500, 500, 500, 500],
+                 []];
 
 var damagePlatformX = [[175, 425, 675, 925],
                        [500, 600, 700, 800],
                        [300], 
                        [],
                        [],
-                       []];
+                       [],
+                       [540, 700, 800, 900, 1000, 1100]];
 var damagePlatformY = [[350, 350, 350, 350],
                        [200, 250, 400, 200],
                        [450], 
                        [],
                        [],
-                       []];
+                       [],
+                       [500, 450, 400, 350, 300, 250]];
 
 
 var stekelPlatformenX = [200, 500, 800];
@@ -95,13 +123,15 @@ var puntenX = [[100, 350, 600, 850, 1100],
                [100, 350, 600, 850, 1100],
                [250, 550, 850],
                [487.5, 812.5],
-               [100, 350, 600, 850, 1100]];
+               [100, 350, 600, 850, 1100],
+               []];
 var puntenY = [[450, 450, 450, 450, 450],
                [450, 350, 250, 150, 425, 275],
                [450, 450, 450, 450, 450], 
                [400, 300, 200],
                [400, 400],
-               [450, 450, 450, 450, 450]];
+               [450, 450, 450, 450, 450],
+               []];
 
 
 var regenX = [300, 756, 600, 300, 200, 456, 784, 0, 0, 0, 0, 0 ,0 ,0 , 0];
@@ -275,6 +305,50 @@ var stekelPlatform = function(x, y) {
 var stekelPlatform2 = function(x, y) {
     platform(x, y, 100, 50)
     damagePlatform(x + 35, y - 20, 30, 20)
+}
+
+
+var eindScherm = function() {
+    if (moeilijkheid === HARDMODE) {
+            score *= 2
+            moeilijkheid = GEMIDDELD;
+        }
+
+        if (score > hoogsteScore) {
+            hoogsteScore = score;
+        }
+
+        levels = 0;
+        spelerX = 100;
+        spelerY = 500;
+
+        background('black');
+        textSize(75)
+        fill(255, 0, 0)
+        text("Score: " + score, 640 - 175, 360, 700, 700);
+        text("tijd: " + Math.round(tijd*100)/100, 640 - 175, 560, 700, 700)
+        text("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
+        
+    if (keyIsDown(SPACEBAR)) {
+        spelStatus = MOEILIJKHEIDKIEZEN;
+        stroke('black');
+        hp = 5;
+        score = 0;
+            puntenX = [[100, 350, 600, 850, 1100],
+                       [100, 300, 100, 300, 650, 750],
+                       [100, 350, 600, 850, 1100],
+                       [250, 550, 850],
+                       [487.5, 812.5],
+                       [],
+                       []];
+            puntenY = [[450, 450, 450, 450, 450],
+                       [450, 350, 250, 150, 425, 275],
+                       [450, 450, 450, 450, 450], 
+                       [400, 300, 200],
+                       [400, 400],
+                       [],
+                       []];
+    }
 }
 
 /**
@@ -620,6 +694,20 @@ function draw() {
         }
       }
 
+      if (levels === 6) {
+          platform(20, 500, 1240, 50)
+          platform(20, 200, 1240, 50)
+          damagePlatform(220, 440, 50, 60)
+          damagePlatform(220, 250, 50, 100)
+          damagePlatform(320, 250, 50, 80) 
+          damagePlatform(320, 420, 50, 80)
+          damagePlatform(420, 475, 50, 25)
+          damagePlatform(420, 250, 50, 135)
+          beweegDamagePlatform(0, 0, 0, 10, 0, 0, 450, 250)
+          for(var i = 1; i <damagePlatformX[levels].length; i++) {
+          beweegDamagePlatform(i,i, 0, 3.5, 0, 0, 450, 250)}
+        }
+
       for(var i = 0; i <damagePlatformX[levels].length; i++) {
       damagePlatform(damagePlatformX[levels][i], damagePlatformY[levels][i], 100, 50)
       }
@@ -633,6 +721,11 @@ function draw() {
       }
       
     damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
+
+    for(var i = 0; i < 10; i++) {
+      if (keyIsDown(49 + i) && levels !== i) {levels = i;
+      spelerX = 100;
+      spelerY = 500;}}
     
     if (spelerX > 1260) {
         spelerX = 100; 
@@ -643,7 +736,7 @@ function draw() {
       fill(200, 200, 200)
       text("hp = " + hp, 40, 40, 200, 200)
       text("score = " + score, 40, 80, 400, 200)
-      text("level " + (levels + 1), width/2 - 100, 40, 200, 200)
+      text("level " + (levels + 1), width/2 - 25, 40, 200, 200)
 
       timer()
       text("" + Math.round(tijd*100)/100, width - 125, 35, 200, 200)
@@ -653,60 +746,23 @@ function draw() {
         spelStatus = GAMEOVER;
       }
 
-      if (levels === 5) {
+      if (levels === 7) {
+          spelStatus = WINSCHERM;
           gameStatus = UITGESPEELD;
       }
       break;
 
     case GAMEOVER:
-        if (moeilijkheid === HARDMODE) {
-            score *= 2
-            moeilijkheid = GEMIDDELD;
-        }
-        background('black');
-        textSize(75)
-        fill(255, 0, 0)
-        text("GAME OVER", 640 - 175, 260, 700, 700);
-        text("Score: " + score, 640 - 175, 360, 700, 700);
-        text("tijd: " + Math.round(tijd*100)/100, 640 - 175, 560, 700, 700)
-
-        if (score > hoogsteScore) {
-            hoogsteScore = score;
-        }
-
-        if (tijd < snelstetijd) {
-            snelstetijd = tijd;
-        }
-
-        text("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
-        text("snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 175, 660, 700, 700)
-        levels = 0;
-        spelerX = 100;
-        spelerY = 500;
-
-    if (keyIsPressed && keyCode === SPACEBAR) {
-        spelStatus = MOEILIJKHEIDKIEZEN;
-        stroke('black');
-        hp = 5;
-        score = 0;
-            puntenX = [[100, 350, 600, 850, 1100],
-                       [100, 300, 100, 300, 650, 750],
-                       [100, 350, 600, 850, 1100],
-                       [250, 550, 850],
-                       [487.5, 812.5],
-                       [],
-                       []];
-            puntenY = [[450, 450, 450, 450, 450],
-                       [450, 350, 250, 150, 425, 275],
-                       [450, 450, 450, 450, 450], 
-                       [400, 300, 200],
-                       [400, 400],
-                       [],
-                       []];
-    }
+    eindScherm();
+    text("GAME OVER", 640 - 175, 260, 700, 700);
      break;
 
      case WINSCHERM: 
-rect(400, 4000, 400, 400)
+     eindScherm();
+     if (tijd < snelstetijd) {
+            snelstetijd = tijd;
+        }
+
+    text("snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 175, 660, 700, 700)
   }
 }
