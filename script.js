@@ -133,18 +133,8 @@ var puntenY = [[450, 450, 450, 450, 450],
                [450, 450, 450, 450, 450],
                []];
 
-
-var regenX = [300, 756, 600, 300, 200, 456, 784, 0, 0, 0, 0, 0 ,0 ,0 , 0];
-var regenY = [100, 100, 100, 100, 100, 100, 100, 400, 400, 400, 400, 400, 400, 400];
-
 var spelerSize = 25;
 var hp = 5; // levens speler
-
-var kogelX = 0;    // x-positie van kogel
-var kogelY = 0;    // y-positie van kogel
-
-var vijandX = 300;   // x-positie van vijand
-var vijandY = 300;   // y-positie van vijand
 
 var score = 0; // aantal behaalde punten
 var hoogsteScore = 0;
@@ -155,19 +145,6 @@ var hoogsteScore = 0;
 /* ********************************************* */
 /*      functies die je gebruikt in je game      */
 /* ********************************************* */
-
-/*var rain = function(x,y) {
-   ellipse(regenX[x], regenY[y], 10, 10)
-
-   if (regenY[y] > 700) {
-       regenY[y] = random(0, 20)
-       regenX[x] = random(-5, 1280)
-   }
-
-   regenX[x] += 2
-   regenY[y] += 3.5
-};*/
-
 var timer = function() {
 tijd += (1/54)
 }
@@ -289,9 +266,7 @@ var punten = function(x, y, w, h, p)
         {score += 1;
             puntenX[levels].splice(p, 1);
             puntenY[levels].splice(p, 1);
-         
     }
-
       fill(187,224,255)
       ellipse(x, y, w, h);
 };
@@ -321,13 +296,6 @@ var eindScherm = function() {
         levels = 0;
         spelerX = 100;
         spelerY = 500;
-
-        background('black');
-        textSize(75)
-        fill(255, 0, 0)
-        text("Score: " + score, 640 - 175, 360, 700, 700);
-        text("tijd: " + Math.round(tijd*100)/100, 640 - 175, 560, 700, 700)
-        text("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
         
     if (keyIsDown(SPACEBAR)) {
         spelStatus = MOEILIJKHEIDKIEZEN;
@@ -352,30 +320,6 @@ var eindScherm = function() {
 }
 
 /**
- * Tekent de vijand
- * @param {number} x x-coördinaat
- * @param {number} y y-coördinaat
- */
-var tekenVijand = function(x, y) {
-};
-
-
-/**
- * Tekent de kogel of de bal
- * @param {number} x x-coördinaat
- * @param {number} y y-coördinaat
- */
-var tekenKogel = function(x, y) {
-
-
-};
-
-var tekenPunten = function(x, y, w, h) {
- fill(187,224,255)
- ellipse(x, y, w, h);
-}
-
-/**
  * Tekent de speler
  * @param {number} x x-coördinaat
  * @param {number} y y-coördinaat
@@ -390,21 +334,10 @@ var tekenPlatform = function(x,y,w,h) {
   rect(x, y, w, h)
 }
 
-/**
- * Updatet globale variabelen met positie van vijand of tegenspeler
- */
-var beweegVijand = function() {
-    
-};
-
-
-/**
- * Updatet globale variabelen met positie van kogel of bal
- */
-var beweegKogel = function() {
-
-};
-
+var tekenPunten = function(x, y, w, h) {
+ fill(187,224,255)
+ ellipse(x, y, w, h);
+}
 
 /**
  * Kijkt wat de toetsen/muis etc zijn.
@@ -603,8 +536,6 @@ function draw() {
     case SPELEN: 
 
     background('black')
-      beweegVijand();
-      beweegKogel();
       beweegSpeler();
       
       if (checkVijandGeraakt()) {
@@ -636,16 +567,11 @@ function draw() {
       hardMode();
       }
 
-      tekenKogel(kogelX, kogelY);
       tekenSpeler(spelerX, spelerY);
       jumpSpeler();
       
       // dit zijn de borders
       borders();
-
-      /*for(var i = 0; i <regenX.length; i++) {
-          rain(i,i)
-      }*/
 
       if (keyIsDown(S_KEY)) {spelStatus = UITLEG;};
 
@@ -754,8 +680,14 @@ function draw() {
 
     case GAMEOVER:
     eindScherm();
+    background('black');
+    textSize(75)
+    fill(255, 0, 0)
+    text("Score: " + score, 640 - 175, 360, 700, 700);
+    text("tijd: " + Math.round(tijd*100)/100, 640 - 175, 560, 700, 700)
+    text("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
     text("GAME OVER", 640 - 175, 260, 700, 700);
-     break;
+    break;
 
      case WINSCHERM: 
      eindScherm();
@@ -763,6 +695,12 @@ function draw() {
             snelstetijd = tijd;
         }
 
+    background('black');
+    textSize(75)
+    fill(255, 0, 0)
+    text("Score: " + score, 640 - 175, 360, 700, 700);
+    text("tijd: " + Math.round(tijd*100)/100, 640 - 175, 560, 700, 700)
+    text("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
     text("snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 175, 660, 700, 700)
   }
 }
