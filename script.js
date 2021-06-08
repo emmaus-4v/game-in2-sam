@@ -196,6 +196,8 @@ var borders = function () {
 
     platform(1260, 0, 20, 300)
     platform(1260, 420, 20, 300)
+    tekenPlatform(1260, 0, 20, 300)
+    tekenPlatform(1260, 420, 20, 300)
 };
 
 var platform = function(x, y, w, h) {
@@ -237,9 +239,6 @@ if (spelerX > x - 5 - spelerSize/2 &&
      
      {spelerX = x - 5 - spelerSize/2;
      };
-    
-    fill("orange")
-    rect(x, y, w, h)
 };
 
 var damagePlatform = function(x, y, w, h)
@@ -253,8 +252,6 @@ var damagePlatform = function(x, y, w, h)
         spelerY = 500;
         speedJump = 40;
     }
-    fill(150, 0, 0);
-    rect(x, y, w, h);
 };
 
 var punten = function(x, y, w, h, p)
@@ -267,21 +264,23 @@ var punten = function(x, y, w, h, p)
             puntenX[levels].splice(p, 1);
             puntenY[levels].splice(p, 1);
     }
-      fill(187,224,255)
-      ellipse(x, y, w, h);
 };
 
 var stekelPlatform = function(x, y) {
     platform(x, y, 100, 50)
+    tekenPlatform(x, y, 100, 50)
     damagePlatform(x, y - 20, 20, 20)
     damagePlatform(x + 80, y - 20, 20, 20)
+    tekenDamagePlatform(x, y - 20, 20, 20)
+    tekenDamagePlatform(x + 80, y - 20, 20, 20)
 }
 
 var stekelPlatform2 = function(x, y) {
     platform(x, y, 100, 50)
     damagePlatform(x + 35, y - 20, 30, 20)
+    tekenPlatform(x, y, 100, 50)
+    tekenDamagePlatform(x + 35, y - 20, 30, 20)
 }
-
 
 var eindScherm = function() {
     if (moeilijkheid === HARDMODE) {
@@ -332,6 +331,11 @@ var tekenSpeler = function(x, y) {
 var tekenPlatform = function(x,y,w,h) {
   fill("orange");
   rect(x, y, w, h)
+}
+
+var tekenDamagePlatform = function(x,y,w,h) {
+  fill(150, 0, 0);
+  rect(x, y, w, h);
 }
 
 var tekenPunten = function(x, y, w, h) {
@@ -502,9 +506,9 @@ function draw() {
 
     text("Dit is een punt. als je deze oppakt dan gaat je score plus 1.", 325, 550, 1000, 700)
 
-    platform(150, 250, 100, 50)
-    damagePlatform(150, 375, 100, 50)
-    punten(200, 550, 20, 20)
+    tekenPlatform(150, 250, 100, 50)
+    tekenDamagePlatform(150, 375, 100, 50)
+    tekenPunten(200, 550, 20, 20)
 
     break;
 
@@ -592,6 +596,8 @@ function draw() {
       if (levels === 1) {
           platform(500, 250, 100, 350)
           platform(800, 250, 100, 200)
+          tekenPlatform(500, 250, 100, 350)
+          tekenPlatform(800, 250, 100, 200)
       }
 
       if (levels === 2) {
@@ -629,24 +635,47 @@ function draw() {
           damagePlatform(320, 420, 50, 80)
           damagePlatform(420, 475, 50, 25)
           damagePlatform(420, 250, 50, 135)
+          
+          tekenPlatform(20, 500, 1240, 50)
+          tekenPlatform(20, 200, 1240, 50)
+          tekenDamagePlatform(220, 440, 50, 60)
+          tekenDamagePlatform(220, 250, 50, 100)
+          tekenDamagePlatform(320, 250, 50, 80) 
+          tekenDamagePlatform(320, 420, 50, 80)
+          tekenDamagePlatform(420, 475, 50, 25)
+          tekenDamagePlatform(420, 250, 50, 135)
+
           beweegDamagePlatform(0, 0, 0, 10, 0, 0, 450, 250)
           for(var i = 1; i <damagePlatformX[levels].length; i++) {
           beweegDamagePlatform(i,i, 0, 3.5, 0, 0, 450, 250)}
         }
 
-      for(var i = 0; i <damagePlatformX[levels].length; i++) {
-      damagePlatform(damagePlatformX[levels][i], damagePlatformY[levels][i], 100, 50)
-      }
-
       for(var i = 0; i <platformX[levels].length; i++) {
       platform(platformX[levels][i], platformY[levels][i], 100, 50)
+      }
+
+      for(var i = 0; i <damagePlatformX[levels].length; i++) {
+      damagePlatform(damagePlatformX[levels][i], damagePlatformY[levels][i], 100, 50)
       }
 
       for(var i = 0; i <puntenX[levels].length; i++) {
       punten(puntenX[levels][i], puntenY[levels][i], 20, 20, i)
       }
+
+      for(var i = 0; i <platformX[levels].length; i++) {
+      tekenPlatform(platformX[levels][i], platformY[levels][i], 100, 50)
+      }
+
+      for(var i = 0; i <damagePlatformX[levels].length; i++) {
+      tekenDamagePlatform(damagePlatformX[levels][i], damagePlatformY[levels][i], 100, 50)
+      }
+
+      for(var i = 0; i <puntenX[levels].length; i++) {
+      tekenPunten(puntenX[levels][i], puntenY[levels][i], 20, 20)
+      }
       
     damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
+    tekenDamagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
 
     for(var i = 0; i < 10; i++) {
       if (keyIsDown(49 + i) && levels !== i) {levels = i;
