@@ -22,6 +22,8 @@ const MOEILIJKHEIDKIEZEN = 1;
 const SPELEN = 2;
 const GAMEOVER = 3;
 const WINSCHERM = 4;
+const LAADSCHERM = 5;
+var laatTijd = 0;
 var spelStatus = UITLEG;
 var levels = 0;
 
@@ -249,8 +251,9 @@ var damagePlatform = function(x, y, w, h)
 
         {hp -= 1;
         spelerX = 100;
-        spelerY = 500;
+        spelerY = 500 - spelerSize/2;
         speedJump = 40;
+        spelStatus = LAADSCHERM;
     }
 };
 
@@ -538,7 +541,7 @@ function draw() {
     break;
 
     case SPELEN: 
-
+    laatTijd = 0;
     background('black')
       beweegSpeler();
       
@@ -731,5 +734,24 @@ function draw() {
     text("tijd: " + Math.round(tijd*100)/100, 640 - 175, 560, 700, 700)
     text("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
     text("snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 175, 660, 700, 700)
+
+    break;
+    case LAADSCHERM:
+    background('black')
+    stroke('red')
+    line(width/2, 350, width/2 + 25, 350 - 25)
+    line(width/2, 350, width/2 - 25, 350 - 25)
+    line(width/2, 300, width/2 + 25, 300 - 25)
+    line(width/2, 300, width/2 - 25, 300 - 25)
+    line(width/2, 300, width/2 + 25, 300 + 25)
+    line(width/2, 300, width/2 - 25, 300 + 25)
+    line(width/2 + 25, 275, width/2 + 12.5, 262.5)
+    line(width/2 - 25, 275, width/2 - 12.5, 262.5)
+    line(width/2, 350, width/2, 270)
+    stroke('black')
+    tekenSpeler(spelerX, spelerY);
+    laatTijd += (1/54)
+    if (laatTijd > 0.6) {
+    spelStatus = SPELEN;}
   }
 }
