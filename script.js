@@ -687,8 +687,9 @@ function draw() {
     
     if (spelerX > 1260) {
         spelerX = 100; 
-        spelerY = 500;
-        levels += 1;}
+        spelerY = 500 - spelerSize/2;
+        levels += 1;
+        spelStatus = LAADSCHERM;}
 
       textSize(30)
       fill(200, 200, 200)
