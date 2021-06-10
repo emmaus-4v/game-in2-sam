@@ -17,14 +17,16 @@
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
 
-const UITLEG = 0;
-const MOEILIJKHEIDKIEZEN = 1;
-const SPELEN = 2;
-const GAMEOVER = 3;
-const WINSCHERM = 4;
-const LAADSCHERM = 5;
+const STARTSCHERM = 0;
+const UITLEG = 1;
+const MOEILIJKHEIDKIEZEN = 2;
+const SPELEN = 3;
+const GAMEOVER = 4;
+const WINSCHERM = 5;
+const LAADSCHERM = 6;
 var laatTijd = 0;
-var spelStatus = UITLEG;
+var transitieScherm = 0;
+var spelStatus = STARTSCHERM;
 var levels = 0;
 
 var tijd = 0;
@@ -328,7 +330,26 @@ var eindScherm = function() {
  */
 var tekenSpeler = function(x, y) {
   fill("salmon");
+  fill('black')
+  ellipse(x + 6.5 - spelerSize/2, y + 2 - spelerSize/2, 10, 10)
+  fill(255, 102, 0)
+  ellipse(x - 6.5 + spelerSize/2, y + 2 - spelerSize/2, 10, 10)
+
+  fill('230, 180, 180')
   ellipse(x, y, spelerSize, spelerSize);
+  fill('black')
+  ellipse(x - 2 + spelerSize/4, y - spelerSize/4, 5, 5)
+  ellipse(x + 2 - spelerSize/4, y - spelerSize/4, 5, 5)
+  fill('white')
+  ellipse(x - 2 + spelerSize/4, y - spelerSize/4 , 3, 3)
+  ellipse(x + 2 - spelerSize/4, y - spelerSize/4, 3, 3)
+
+  line(x + 5, y + 2, x + 20, y + 10)
+  line(x + 5, y, x + 20, y)
+  line(x + 5, y - 2, x + 20, y - 10)
+  line(x - 5, y + 2, x - 20, y + 10)
+  line(x - 5, y, x - 20, y)
+  line(x - 5, y - 2, x - 20, y - 10)
 };
 
 var tekenPlatform = function(x,y,w,h) {
@@ -494,6 +515,16 @@ function setup() {
  */
 function draw() {
   switch (spelStatus) {
+    case STARTSCHERM:
+    background(43, 47, 119)
+    fill('green')
+    textSize(75)
+    text('CAVIA QUEST', width/2 - 200, height/2, 700, 700)
+    if (keyIsDown(SPACEBAR)) {
+        spelStatus = UITLEG;
+    }
+
+    break;
     case UITLEG:
 
     background('black');
