@@ -31,7 +31,7 @@ var laatTijd = 0;
 var levels = 0;
 
 var tijd = 0;
-var snelstetijd = 10000;
+var snelstetijd = Infinity;
 
 var gameStatus = 0;
 const UITGESPEELD = 1
@@ -345,8 +345,8 @@ var tekenSpeler = function(x, y) {
   fill('230, 180, 180')
   ellipse(x, y, spelerSize, spelerSize);
   fill('black')
-  ellipse(x - 2 + spelerSize/4, y - spelerSize/4, 5, 5)
-  ellipse(x + 2 - spelerSize/4, y - spelerSize/4, 5, 5)
+  ellipse(x - 2 + spelerSize/4, y - spelerSize/4, spelerSize/5, spelerSize/5)
+  ellipse(x + 2 - spelerSize/4, y - spelerSize/4, spelerSize/5, spelerSize/5)
   fill('white')
   ellipse(x - 2 + spelerSize/4, y - spelerSize/4 , 3, 3)
   ellipse(x + 2 - spelerSize/4, y - spelerSize/4, 3, 3)
@@ -470,25 +470,6 @@ var beweegPlatform = function(x, y, speedX, speedY, linkerX, rechterX, benedenY,
 }
 
 /**
- * Zoekt uit of de vijand is geraakt
- * @returns {boolean} true als vijand is geraakt
- */
-var checkVijandGeraakt = function() {
-
-  return false;
-};
-
-
-/**
- * Zoekt uit of de speler is geraakt
- * bijvoorbeeld door botsing met vijand
- * @returns {boolean} true als speler is geraakt
- */
-var checkSpelerGeraakt = function() {
-    return false;
-};
-
-/**
  * Zoekt uit of het spel is afgelopen
  * @returns {boolean} true als het spel is afgelopen
  */
@@ -521,10 +502,13 @@ function setup() {
 function draw() {
   switch (spelStatus) {
     case STARTSCHERM:
-    background(43, 47, 119)
-    fill('green')
+    background(43, 47, 119);
+    fill('orange')
     textSize(75)
-    text('CAVIA QUEST', width/2 - 200, height/2, 700, 700)
+    text('CAVIA QUEST', width/2 - 200, height/2 - 75, 700, 700)
+    textSize(35)
+    text('Gemaakt door: Sam van Beek', width/2 - 185, height/2 + 25, 700, 700)
+    text('Druk op spacebar om verder te gaan', width/2 - 225, height/2 + 250, 700, 700)
     if (keyIsDown(SPACEBAR)) {
         spelStatus = UITLEG;
     }
@@ -580,24 +564,11 @@ function draw() {
     laatTijd = 0;
     background('black')
       beweegSpeler();
-      
-      if (checkVijandGeraakt()) {
-        // punten erbij
-        // nieuwe vijand maken
-      }
-      
-      if (checkSpelerGeraakt()) {
-        // leven eraf of gezondheid verlagen
-        // eventueel: nieuwe speler maken
-        hp -= 1;
-        spelerX = 100;
-        spelerY = 500;
-        speedJump = 40;
-      }
 
       switch (moeilijkheid) {
       case GEMIDDELD: 
       tekenVeld();
+      strokeWeight(1);
       break;
 
       case MAKKELIJK: 
@@ -757,10 +728,14 @@ function draw() {
     background('black');
     textSize(75)
     fill(255, 0, 0)
-    text("Score: " + score, 640 - 175, 360, 700, 700);
-    text("tijd: " + Math.round(tijd*100)/100, 640 - 175, 560, 700, 700)
-    text("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
     text("GAME OVER", 640 - 175, 260, 700, 700);
+    textSize(35)
+    text("Score: " + score, 640 - 45, 360, 700, 700);
+    text("Highscore: " + hoogsteScore, 640 - 45, 410, 700, 700);
+    text("Tijd: " + Math.round(tijd*100)/100, 640 - 45, 460, 700, 700)
+
+    text('Druk op spacebar om verder te gaan', width/2 - 225, height/2 + 250, 700, 700)
+
     break;
 
      case WINSCHERM: 
@@ -769,14 +744,17 @@ function draw() {
             snelstetijd = tijd;
         }
 
-    background('green');
+    background(43, 47, 119);
     textSize(75)
-    fill(0, 0, 255)
-    text("YOU WIN", 640 - 175, 260, 700, 700)
-    text("Score: " + score, 640 - 175, 360, 700, 700);
-    text("tijd: " + Math.round(tijd*100)/100, 640 - 175, 560, 700, 700)
-    text("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
-    text("snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 175, 660, 700, 700)
+    fill('orange')
+    text("GAME WON", 640 - 165, 260, 700, 700)
+    textSize(35)
+    text("Score: " + score, 640 - 45, 360, 700, 700);
+    text("Highscore: " + hoogsteScore, 640 - 45, 410, 700, 700);
+    text("Tijd: " + Math.round(tijd*100)/100, 640 - 45, 460, 700, 700)
+    text("snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 45, 510, 700, 700)
+
+    text('Druk op spacebar om verder te gaan', width/2 - 225, height/2 + 250, 700, 700)
 
     break;
     case LAADSCHERM:
