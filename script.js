@@ -24,9 +24,10 @@ const SPELEN = 3;
 const GAMEOVER = 4;
 const WINSCHERM = 5;
 const LAADSCHERM = 6;
-var laatTijd = 0;
-var transitieScherm = 0;
+
 var spelStatus = STARTSCHERM;
+
+var laatTijd = 0;
 var levels = 0;
 
 var tijd = 0;
@@ -41,6 +42,7 @@ const HARDMODE = 2;
 var moeilijkheid = GEMIDDELD;
 
 const ENTER = 13;
+const SHIFT = 16;
 const KEY_LEFT = 37;
 const KEY_RIGHT = 39;
 const KEY_UP = 38;
@@ -54,13 +56,6 @@ var spelerY = 500; // y-positie van speler
 var jumpHoogte = 8.5 + 2.5;
 var speedJump = 0;
 
-var damagePlatformSpeedY = [[4, 4, 4, 4], 
-                            [0], 
-                            [0], 
-                            [0], 
-                            [], 
-                            [], 
-                            [10, 10, 10, 10, 10, 10, 10, 10]];
 var damagePlatformSpeedX = [[4, 4, 4, 4], 
                             [8], 
                             [8], 
@@ -69,19 +64,28 @@ var damagePlatformSpeedX = [[4, 4, 4, 4],
                             [], 
                             [0, 0, 0, 0, 0, 0, 0, 0]];
 
-var platformSpeedY = [[4, 4, 4, 4], 
-                      [0], 
-                      [0], 
-                      [0],
-                      [0, 2, 2, 2, 0],
-                      [3.25, 3.25, 3.25, 3.25, 3.25],
-                      []];
+var damagePlatformSpeedY = [[4, 4, 4, 4], 
+                            [0], 
+                            [0], 
+                            [0], 
+                            [], 
+                            [], 
+                            [10, 10, 10, 10, 10, 10, 10, 10]];
+
 var platformSpeedX = [[4, 4, 4, 4], 
                       [0], 
                       [0], 
                       [0], 
                       [0, 2, 2, 2, 0], 
                       [0, 0, 0, 0, 0], 
+                      []];
+
+var platformSpeedY = [[4, 4, 4, 4], 
+                      [0], 
+                      [0], 
+                      [0],
+                      [0, 2, 2, 2, 0],
+                      [3.25, 3.25, 3.25, 3.25, 3.25],
                       []];
 
 var platformX = [[50, 300, 550, 800, 1050],
@@ -119,8 +123,8 @@ var damagePlatformY = [[350, 350, 350, 350],
 var stekelPlatformenX = [200, 500, 800];
 var stekelPlatformenY = [450, 350, 250];
 
-var stekelPlatformen2X = [350, 650];
-var stekelPlatformen2Y = [400, 300];
+var stekelPlatformenTweeX = [350, 650];
+var stekelPlatformenTweeY = [400, 300];
 
 var puntenX = [[100, 350, 600, 850, 1100],
                [100, 300, 100, 300, 650, 750],
@@ -137,11 +141,11 @@ var puntenY = [[450, 450, 450, 450, 450],
                [450, 450, 450, 450, 450],
                []];
 
-var spelerSize = 25;
+var spelerSize = 25; // grote van de speler
 var hp = 5; // levens speler
 
 var score = 0; // aantal behaalde punten
-var hoogsteScore = 0;
+var hoogsteScore = 0; // meeste behaalde punten
 
 
 
@@ -149,6 +153,8 @@ var hoogsteScore = 0;
 /* ********************************************* */
 /*      functies die je gebruikt in je game      */
 /* ********************************************* */
+
+// timer voor het laadscherm
 var timer = function() {
 tijd += (1/54)
 }
@@ -266,21 +272,22 @@ var punten = function(x, y, w, h, p)
         spelerY < y + 1*w)
 
         {score += 1;
-            puntenX[levels].splice(p, 1);
-            puntenY[levels].splice(p, 1);
+         puntenX[levels].splice(p, 1);
+         puntenY[levels].splice(p, 1);
     }
 };
 
 var stekelPlatform = function(x, y) {
     platform(x, y, 100, 50)
-    tekenPlatform(x, y, 100, 50)
     damagePlatform(x, y - 20, 20, 20)
     damagePlatform(x + 80, y - 20, 20, 20)
+
+    tekenPlatform(x, y, 100, 50)
     tekenDamagePlatform(x, y - 20, 20, 20)
     tekenDamagePlatform(x + 80, y - 20, 20, 20)
 }
 
-var stekelPlatform2 = function(x, y) {
+var stekelPlatformTwee = function(x, y) {
     platform(x, y, 100, 50)
     damagePlatform(x + 35, y - 20, 30, 20)
     tekenPlatform(x, y, 100, 50)
@@ -303,23 +310,23 @@ var eindScherm = function() {
         
     if (keyIsDown(SPACEBAR)) {
         spelStatus = MOEILIJKHEIDKIEZEN;
-        stroke('black');
         hp = 5;
+        stroke('black');
         score = 0;
-            puntenX = [[100, 350, 600, 850, 1100],
-                       [100, 300, 100, 300, 650, 750],
-                       [100, 350, 600, 850, 1100],
-                       [250, 550, 850],
-                       [487.5, 812.5],
-                       [],
-                       []];
-            puntenY = [[450, 450, 450, 450, 450],
-                       [450, 350, 250, 150, 425, 275],
-                       [450, 450, 450, 450, 450], 
-                       [400, 300, 200],
-                       [400, 400],
-                       [],
-                       []];
+        puntenX = [[100, 350, 600, 850, 1100],
+                   [100, 300, 100, 300, 650, 750],
+                   [100, 350, 600, 850, 1100],
+                   [250, 550, 850],
+                   [487.5, 812.5],
+                   [100, 350, 600, 850, 1100],
+                   []];
+        puntenY = [[450, 450, 450, 450, 450],
+                   [450, 350, 250, 150, 425, 275],
+                   [450, 450, 450, 450, 450], 
+                   [400, 300, 200],
+                   [400, 400],
+                   [450, 450, 450, 450, 450],
+                   []];
     }
 }
 
@@ -352,12 +359,12 @@ var tekenSpeler = function(x, y) {
   line(x - 5, y - 2, x - 20, y - 10)
 };
 
-var tekenPlatform = function(x,y,w,h) {
+var tekenPlatform = function(x, y, w, h) {
   fill("orange");
   rect(x, y, w, h)
 }
 
-var tekenDamagePlatform = function(x,y,w,h) {
+var tekenDamagePlatform = function(x, y, w, h) {
   fill(150, 0, 0);
   rect(x, y, w, h);
 }
@@ -367,15 +374,56 @@ var tekenPunten = function(x, y, w, h) {
  ellipse(x, y, w, h);
 }
 
+var jumpSpeler = function() {
+      if (keyIsDown(KEY_UP)) {
+         spelerY -= jumpHoogte;
+         speedJump += 1
+      }
+
+      if (speedJump === 5) {jumpHoogte = 6 + 2.5;
+      }
+
+      if (speedJump === 10) {jumpHoogte = 4.5 + 2.5;
+      }
+
+      if (speedJump === 20) {jumpHoogte = 3 + 2.5;
+      }
+
+      if (speedJump === 25) {jumpHoogte = 1.5 + 2.5;
+      }
+
+      if (speedJump === 30) {jumpHoogte = 0.75 + 2.5;
+      }
+
+      if (speedJump === 35) {jumpHoogte = 0.25 + 2.5;
+      }
+
+      if (speedJump === 36) {jumpHoogte = 0.20 + 2.5;
+      }
+
+      if (speedJump === 37) {jumpHoogte = 0.15 + 2.5;
+      }
+
+      if (speedJump === 38) {jumpHoogte = 0.10 + 2.5;
+      }
+
+      if (speedJump === 39) {jumpHoogte = 0.5 + 2.5;
+      }
+
+      if (speedJump > 39) {jumpHoogte = 0;
+      }
+
+        // hij springt ongeveer 150 pixels hoog
+};
+
 /**
  * Kijkt wat de toetsen/muis etc zijn.
  * Updatet globale variabele spelerX en spelerY
  */
 var beweegSpeler = function() {
-    if (keyIsPressed) {
         if (keyIsDown(KEY_LEFT)) {spelerX -= 5}
         else if (keyIsDown(KEY_RIGHT)) {spelerX += 5}
-    }
+        jumpSpeler();
 };
 
 var beweegDamagePlatform = function(x, y, speedX, speedY, linkerX, rechterX, benedenY, bovenY) {
@@ -420,49 +468,6 @@ var beweegPlatform = function(x, y, speedX, speedY, linkerX, rechterX, benedenY,
         platformSpeedY[levels][y] = speedY;
     }
 }
-
-var jumpSpeler = function() {
-      if (keyIsDown(KEY_UP)) {
-         spelerY -= jumpHoogte;
-         speedJump += 1
-      }
-
-      if (speedJump === 5) {jumpHoogte = 6 + 2.5;
-      }
-
-      if (speedJump === 10) {jumpHoogte = 4.5 + 2.5;
-      }
-
-      if (speedJump === 20) {jumpHoogte = 3 + 2.5;
-      }
-
-      if (speedJump === 25) {jumpHoogte = 1.5 + 2.5;
-      }
-
-      if (speedJump === 30) {jumpHoogte = 0.75 + 2.5;
-      }
-
-      if (speedJump === 35) {jumpHoogte = 0.25 + 2.5;
-      }
-
-      if (speedJump === 36) {jumpHoogte = 0.20 + 2.5;
-      }
-
-      if (speedJump === 37) {jumpHoogte = 0.15 + 2.5;
-      }
-
-      if (speedJump === 38) {jumpHoogte = 0.10 + 2.5;
-      }
-
-      if (speedJump === 39) {jumpHoogte = 0.5 + 2.5;
-      }
-
-      if (speedJump > 39) {jumpHoogte = 0;
-      }
-
-        // hij springt ongeveer 150 pixels hoog
-      
-};
 
 /**
  * Zoekt uit of de vijand is geraakt
@@ -606,7 +611,6 @@ function draw() {
       }
 
       tekenSpeler(spelerX, spelerY);
-      jumpSpeler();
       
       // dit zijn de borders
       borders();
@@ -614,7 +618,7 @@ function draw() {
       if (keyIsDown(S_KEY)) {spelStatus = UITLEG;};
 
       if (gameStatus === UITGESPEELD) {
-      for(var i = 0; i < 10; i++) {
+      for(var i = 0; i < 7; i++) {
       if (keyIsDown(49 + i) && levels !== i) {levels = i;
       spelerX = 100;
       spelerY = 500;}
@@ -643,10 +647,10 @@ function draw() {
       stekelPlatform(stekelPlatformenX[i], stekelPlatformenY[i])
       }
 
-      for(var i = 0; i <stekelPlatformen2X.length; i++) {
-      stekelPlatform2(stekelPlatformen2X[i], stekelPlatformen2Y[i])
+      for(var i = 0; i <stekelPlatformenTweeX.length; i++) {
+      stekelPlatformTwee(stekelPlatformenTweeX[i], stekelPlatformenTweeY[i])
       }
-    }
+      }
 
       if (levels === 4) {
         beweegPlatform(1, 1, 2, 0, 175, 375, 0, 0)
@@ -684,25 +688,31 @@ function draw() {
           beweegDamagePlatform(i,i, 0, 3.5, 0, 0, 450, 250)}
         }
 
+
       for(var i = 0; i <platformX[levels].length; i++) {
       platform(platformX[levels][i], platformY[levels][i], 100, 50)
       }
+
 
       for(var i = 0; i <damagePlatformX[levels].length; i++) {
       damagePlatform(damagePlatformX[levels][i], damagePlatformY[levels][i], 100, 50)
       }
 
+
       for(var i = 0; i <puntenX[levels].length; i++) {
       punten(puntenX[levels][i], puntenY[levels][i], 20, 20, i)
       }
+
 
       for(var i = 0; i <platformX[levels].length; i++) {
       tekenPlatform(platformX[levels][i], platformY[levels][i], 100, 50)
       }
 
+
       for(var i = 0; i <damagePlatformX[levels].length; i++) {
       tekenDamagePlatform(damagePlatformX[levels][i], damagePlatformY[levels][i], 100, 50)
       }
+
 
       for(var i = 0; i <puntenX[levels].length; i++) {
       tekenPunten(puntenX[levels][i], puntenY[levels][i], 20, 20)
@@ -711,12 +721,12 @@ function draw() {
     damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
     tekenDamagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
 
-    for(var i = 0; i < 10; i++) {
-      if (keyIsDown(49 + i) && levels !== i) {levels = i;
+    for(var i = 0; i < 7; i++) {
+      if (keyIsDown(49 + i) && levels !== i && keyIsDown(SHIFT)) {levels = i;
       spelerX = 100;
       spelerY = 500;}}
     
-    if (spelerX > 1260) {
+    if (spelerX > 1260 && levels < 7) {
         spelerX = 100; 
         spelerY = 500 - spelerSize/2;
         levels += 1;
@@ -759,9 +769,10 @@ function draw() {
             snelstetijd = tijd;
         }
 
-    background('black');
+    background('green');
     textSize(75)
-    fill(255, 0, 0)
+    fill(0, 0, 255)
+    text("YOU WIN", 640 - 175, 260, 700, 700)
     text("Score: " + score, 640 - 175, 360, 700, 700);
     text("tijd: " + Math.round(tijd*100)/100, 640 - 175, 560, 700, 700)
     text("Highscore: " + hoogsteScore, 640 - 175, 460, 700, 700);
