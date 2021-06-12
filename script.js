@@ -336,8 +336,7 @@ var eindScherm = function() {
  * @param {number} y y-coördinaat
  */
 var tekenSpeler = function(x, y) {
-  fill("salmon");
-  fill('black')
+  fill('black');
   ellipse(x + 6.5 - spelerSize/2, y + 2 - spelerSize/2, 10, 10)
   fill(255, 102, 0)
   ellipse(x - 6.5 + spelerSize/2, y + 2 - spelerSize/2, 10, 10)
@@ -370,7 +369,7 @@ var tekenDamagePlatform = function(x, y, w, h) {
 }
 
 var tekenPunten = function(x, y, w, h) {
- fill(187,224,255)
+ fill(187, 224, 255)
  ellipse(x, y, w, h);
 }
 
@@ -412,8 +411,6 @@ var jumpSpeler = function() {
 
       if (speedJump > 39) {jumpHoogte = 0;
       }
-
-        // hij springt ongeveer 150 pixels hoog
 };
 
 /**
@@ -489,7 +486,7 @@ function setup() {
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
   createCanvas(1280, 720);
 
-  // Kleur de achtergrond black, zodat je het kunt zien
+  // Kleur de achtergrond zwart, zodat je het kunt zien
   background("black");
 }
 
@@ -515,7 +512,6 @@ function draw() {
 
     break;
     case UITLEG:
-
     background('black');
     if (keyIsDown(ENTER)) {spelStatus = MOEILIJKHEIDKIEZEN;}
     fill(175, 175, 175)
@@ -532,7 +528,6 @@ function draw() {
     tekenPlatform(150, 250, 100, 50)
     tekenDamagePlatform(150, 375, 100, 50)
     tekenPunten(200, 550, 20, 20)
-
     break;
 
     case MOEILIJKHEIDKIEZEN:
@@ -572,7 +567,6 @@ function draw() {
       break;
 
       case MAKKELIJK: 
-      tekenVeld();
       hp = 20;
       moeilijkheid = GEMIDDELD;
       break;
@@ -580,8 +574,6 @@ function draw() {
       case HARDMODE: 
       hardMode();
       }
-
-      tekenSpeler(spelerX, spelerY);
       
       // dit zijn de borders
       borders();
@@ -675,6 +667,9 @@ function draw() {
       }
 
 
+      tekenSpeler(spelerX, spelerY);
+
+
       for(var i = 0; i <platformX[levels].length; i++) {
       tekenPlatform(platformX[levels][i], platformY[levels][i], 100, 50)
       }
@@ -735,7 +730,6 @@ function draw() {
     text("Tijd: " + Math.round(tijd*100)/100, 640 - 45, 460, 700, 700)
 
     text('Druk op spacebar om verder te gaan', width/2 - 225, height/2 + 250, 700, 700)
-
     break;
 
      case WINSCHERM: 
@@ -752,12 +746,19 @@ function draw() {
     text("Score: " + score, 640 - 45, 360, 700, 700);
     text("Highscore: " + hoogsteScore, 640 - 45, 410, 700, 700);
     text("Tijd: " + Math.round(tijd*100)/100, 640 - 45, 460, 700, 700)
-    text("snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 45, 510, 700, 700)
+    text("Snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 45, 510, 700, 700)
 
     text('Druk op spacebar om verder te gaan', width/2 - 225, height/2 + 250, 700, 700)
 
     break;
+
+    // Dit laadscherm zorgt ervoor dat als je dood springtje tijd heb om de spring knop los te laten, 
+    // want anders spring je misschien wel meteen weer dood.
     case LAADSCHERM:
+    laatTijd += (1/54)
+    if (laatTijd > 0.6) {
+    spelStatus = SPELEN;}
+
     background('black')
     stroke('red')
     line(width/2, 350, width/2 + 25, 350 - 25)
@@ -771,8 +772,5 @@ function draw() {
     line(width/2, 350, width/2, 270)
     stroke('black')
     tekenSpeler(spelerX, spelerY);
-    laatTijd += (1/54)
-    if (laatTijd > 0.6) {
-    spelStatus = SPELEN;}
   }
 }
