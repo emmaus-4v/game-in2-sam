@@ -62,7 +62,7 @@ var damagePlatformSpeedX = [[4, 4, 4, 4],
                             [10], 
                             [], 
                             [], 
-                            [0, 0, 0, 0, 0, 0, 0, 0]];
+                            [0, 0, 0, 0, 0, 0, 0]];
 
 var damagePlatformSpeedY = [[4, 4, 4, 4], 
                             [0], 
@@ -70,7 +70,7 @@ var damagePlatformSpeedY = [[4, 4, 4, 4],
                             [0], 
                             [], 
                             [], 
-                            [10, 10, 10, 10, 10, 10, 10, 10]];
+                            [10, 10, 10, 10, 10, 10, 10]];
 
 var platformSpeedX = [[4, 4, 4, 4], 
                       [0], 
@@ -110,14 +110,14 @@ var damagePlatformX = [[175, 425, 675, 925],
                        [],
                        [],
                        [],
-                       [540, 700, 800, 900, 1000, 1100]];
+                       [700, 800, 900, 1000, 1100]];
 var damagePlatformY = [[350, 350, 350, 350],
                        [200, 250, 400, 200],
                        [450], 
                        [],
                        [],
                        [],
-                       [500, 450, 400, 350, 300, 250]];
+                       [450, 400, 350, 300, 250]];
 
 
 var stekelPlatformenX = [200, 500, 800];
@@ -142,7 +142,7 @@ var puntenY = [[450, 450, 450, 450, 450],
                []];
 
 var spelerSize = 25; // grote van de speler
-var hp = 5; // levens speler
+var hp = 10; // levens speler
 
 var score = 0; // aantal behaalde punten
 var hoogsteScore = 0; // meeste behaalde punten
@@ -310,7 +310,7 @@ var eindScherm = function() {
         
     if (keyIsDown(SPACEBAR)) {
         spelStatus = MOEILIJKHEIDKIEZEN;
-        hp = 5;
+        hp = 10;
         stroke('black');
         score = 0;
         puntenX = [[100, 350, 600, 850, 1100],
@@ -535,9 +535,9 @@ function draw() {
     fill(175, 175, 175)
     textSize(30)
     tijd = 0;
-    text("Druk op 1 voor makkelijk. Bij makkelijk heb je 20 hp.", 125, 165, 720, 700)
+    text("Druk op 1 voor makkelijk. Bij makkelijk heb je 99 hp.", 125, 165, 720, 700)
 
-    text("Druk op 2 voor normaal. Bij normaal heb je 5 hp.", 125, 275, 920, 700 )
+    text("Druk op 2 voor normaal. Bij normaal heb je 10 hp.", 125, 275, 920, 700 )
 
     text("Druk op 3 voor moeilijk. Bij moeilijk heb je maar 1 hp dus je moet heel het spel zonder gehit te worden uitspelen. Bij moeilijk veranderd het uiterlijk van de game ook.", 125, 400, 1020, 700)
 
@@ -567,7 +567,7 @@ function draw() {
       break;
 
       case MAKKELIJK: 
-      hp = 20;
+      hp = 99;
       moeilijkheid = GEMIDDELD;
       break;
 
@@ -575,10 +575,14 @@ function draw() {
       hardMode();
       }
       
-      // dit zijn de borders
+      // Dit is de zwaartekracht
+      spelerY += 3.25
+      // Dit is een timer die de tijd bij houd in seconden.
+      timer()
+      // Dit zijn de borders
       borders();
 
-      if (keyIsDown(S_KEY)) {spelStatus = UITLEG;};
+      if (keyIsDown(S_KEY)) {spelStatus = STARTSCHERM;};
 
       if (gameStatus === UITGESPEELD) {
       for(var i = 0; i < 7; i++) {
@@ -611,8 +615,8 @@ function draw() {
       }
 
       for(var i = 0; i <stekelPlatformenTweeX.length; i++) {
-      stekelPlatformTwee(stekelPlatformenTweeX[i], stekelPlatformenTweeY[i])
-      }
+       stekelPlatformTwee(stekelPlatformenTweeX[i], stekelPlatformenTweeY[i])
+       }
       }
 
       if (levels === 4) {
@@ -630,25 +634,24 @@ function draw() {
       if (levels === 6) {
           platform(20, 500, 1240, 50)
           platform(20, 200, 1240, 50)
-          damagePlatform(220, 440, 50, 60)
+          /*damagePlatform(220, 440, 50, 60)
           damagePlatform(220, 250, 50, 100)
           damagePlatform(320, 250, 50, 80) 
           damagePlatform(320, 420, 50, 80)
           damagePlatform(420, 475, 50, 25)
-          damagePlatform(420, 250, 50, 135)
+          damagePlatform(420, 250, 50, 135)*/
           
           tekenPlatform(20, 500, 1240, 50)
           tekenPlatform(20, 200, 1240, 50)
-          tekenDamagePlatform(220, 440, 50, 60)
+          /*tekenDamagePlatform(220, 440, 50, 60)
           tekenDamagePlatform(220, 250, 50, 100)
           tekenDamagePlatform(320, 250, 50, 80) 
           tekenDamagePlatform(320, 420, 50, 80)
           tekenDamagePlatform(420, 475, 50, 25)
-          tekenDamagePlatform(420, 250, 50, 135)
+          tekenDamagePlatform(420, 250, 50, 135)*/
 
-          beweegDamagePlatform(0, 0, 0, 10, 0, 0, 450, 250)
-          for(var i = 1; i <damagePlatformX[levels].length; i++) {
-          beweegDamagePlatform(i,i, 0, 3.5, 0, 0, 450, 250)}
+          for(var i = 0; i <damagePlatformX[levels].length; i++) {
+          beweegDamagePlatform(i, i, 0, 3.5, 0, 0, 450, 250)}
         }
 
 
@@ -703,10 +706,7 @@ function draw() {
       text("hp = " + hp, 40, 40, 200, 200)
       text("score = " + score, 40, 80, 400, 200)
       text("level " + (levels + 1), width/2 - 25, 40, 200, 200)
-
-      timer()
       text("" + Math.round(tijd*100)/100, width - 125, 35, 200, 200)
-      spelerY += 3.25
 
       if (checkGameOver()) {
         spelStatus = GAMEOVER;
@@ -741,12 +741,14 @@ function draw() {
     background(43, 47, 119);
     textSize(75)
     fill('orange')
-    text("GAME WON", 640 - 165, 260, 700, 700)
+    text("GAME WON", 640 - 165, 160, 700, 700)
     textSize(35)
-    text("Score: " + score, 640 - 45, 360, 700, 700);
-    text("Highscore: " + hoogsteScore, 640 - 45, 410, 700, 700);
-    text("Tijd: " + Math.round(tijd*100)/100, 640 - 45, 460, 700, 700)
-    text("Snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 45, 510, 700, 700)
+    text("Score: " + score, 640 - 45, 260, 700, 700);
+    text("Highscore: " + hoogsteScore, 640 - 45, 310, 700, 700);
+    text("Tijd: " + Math.round(tijd*100)/100, 640 - 45, 360, 700, 700)
+    text("Snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 45, 410, 700, 700)
+    text("Je kunt nu levels selecteren door op het ", 350, 480, 1200, 1200);
+    text("nummer van het level te drukken op je toetsenbord.", 300, 530, 1200, 1200);
 
     text('Druk op spacebar om verder te gaan', width/2 - 225, height/2 + 250, 700, 700)
 
