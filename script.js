@@ -56,32 +56,32 @@ var spelerY = 500; // y-positie van speler
 var jumpHoogte = 8.5 + 2.5;
 var speedJump = 0;
 
-var damagePlatformSpeedX = [[4, 4, 4, 4], 
-                            [8], 
+var damagePlatformSpeedX = [[0, 0, 0, 0], 
                             [], 
-                            [10], 
+                            [], 
+                            [], 
                             [], 
                             [8]];
 
 var damagePlatformSpeedY = [[4, 4, 4, 4], 
-                            [0], 
                             [], 
-                            [0], 
+                            [], 
+                            [], 
                             [], 
                             [0]];
 
-var platformSpeedX = [[4, 4, 4, 4], 
-                      [0], 
+var platformSpeedX = [[], 
+                      [], 
                       [0, 0, 0, 0, 0], 
-                      [0], 
-                      [0, 2, 2, 2, 0], 
+                      [], 
+                      [0, 2, 2, 2], 
                       [0]];
 
-var platformSpeedY = [[4, 4, 4, 4], 
-                      [0], 
+var platformSpeedY = [[], 
+                      [], 
                       [3.25, 3.25, 3.25, 3.25, 3.25], 
-                      [0],
-                      [0, 2, 2, 2, 0],
+                      [],
+                      [0, 2, 2, 2],
                       [0]];
 
 var platformX = [[50, 300, 550, 800, 1050],
@@ -412,46 +412,46 @@ var beweegSpeler = function() {
         jumpSpeler();
 };
 
-var beweegDamagePlatform = function(x, y, speedX, speedY, linkerX, rechterX, benedenY, bovenY) {
+var beweegDamagePlatform = function(x, y, linkerX, rechterX, benedenY, bovenY) {
     damagePlatformY[levels][y] += damagePlatformSpeedY[levels][y];
     damagePlatformX[levels][x] += damagePlatformSpeedX[levels][x];
 
     if (damagePlatformX[levels][x] > rechterX) {
-        damagePlatformSpeedX[levels][x] = -speedX;
+        damagePlatformSpeedX[levels][x] = -damagePlatformSpeedX[levels][x];
     }
     
     if (damagePlatformX[levels][x] < linkerX) {
-        damagePlatformSpeedX[levels][x] = speedX;
+        damagePlatformSpeedX[levels][x] = -damagePlatformSpeedX[levels][x];
     }
 
     if (damagePlatformY[levels][y] > benedenY) {
-        damagePlatformSpeedY[levels][y] = -speedY;
+        damagePlatformSpeedY[levels][y] = -damagePlatformSpeedY[levels][y];
     }
     
     if (damagePlatformY[levels][y] < bovenY) {
-        damagePlatformSpeedY[levels][y] = speedY;
+        damagePlatformSpeedY[levels][y] = -damagePlatformSpeedY[levels][y];
     }
 }
 
-var beweegPlatform = function(x, y, speedX, speedY, linkerX, rechterX, benedenY, bovenY) {
+var beweegPlatform = function(x, y, linkerX, rechterX, benedenY, bovenY) {
 
     platformY[levels][y] += platformSpeedY[levels][y];
     platformX[levels][x] += platformSpeedX[levels][x];
 
     if (platformX[levels][x] > rechterX) {
-        platformSpeedX[levels][x] = -speedX;
+        platformSpeedX[levels][x] = -platformSpeedX[levels][x];
     }
     
     if (platformX[levels][x] < linkerX) {
-        platformSpeedX[levels][x] = speedX;
+        platformSpeedX[levels][x] = -platformSpeedX[levels][x];
     }
 
     if (platformY[levels][y] > benedenY) {
-        platformSpeedY[levels][y] = -speedY;
+        platformSpeedY[levels][y] = -platformSpeedY[levels][y];
     }
     
     if (platformY[levels][y] < bovenY) {
-        platformSpeedY[levels][y] = speedY;
+        platformSpeedY[levels][y] = -platformSpeedY[levels][y];
     }
 }
 
@@ -584,7 +584,7 @@ function draw() {
 
       if (levels === 0) {
         for(var i = 0; i <damagePlatformX[levels].length; i++) {
-          beweegDamagePlatform(i, i, 0, 4, 0, 0, 650, 350)
+          beweegDamagePlatform(i, i, 0, 0, 650, 350)
         }
       }
 
@@ -597,7 +597,7 @@ function draw() {
 
       if (levels === 2) {
           for(var i = 1; i < platformX[levels].length; i++) {
-          beweegPlatform(i, i, 0, 3.25, 0, 0, 650, 500)
+          beweegPlatform(i, i, 0, 0, 650, 500)
         }
       }
       
@@ -612,13 +612,13 @@ function draw() {
       }
 
       if (levels === 4) {
-        beweegPlatform(1, 1, 2, 0, 175, 375, 0, 0)
-        beweegPlatform(2, 2, 2, 0, 500, 700, 0, 0)
-        beweegPlatform(3, 3, 2, 0, 825, 1025, 0, 0)
+        beweegPlatform(1, 1, 175, 375, 0, 0)
+        beweegPlatform(2, 2, 500, 700, 0, 0)
+        beweegPlatform(3, 3, 825, 1025, 0, 0)
       }
 
       if (levels === 5) {
-          beweegDamagePlatform(0, 0, 8, 0, 300, 1050, 0, 0)
+          beweegDamagePlatform(0, 0, 300, 1050, 0, 0)
           if (spelerX > 1260) {
           spelStatus = WINSCHERM;
           gameStatus = UITGESPEELD;
