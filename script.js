@@ -515,14 +515,15 @@ function draw() {
     fill(175, 175, 175)
     textSize(30)
     tijd = 0;
-    text("Druk op 1 voor makkelijk. Bij makkelijk heb je 25 hp.", 125, 165, 720, 700)
+    text("Druk op 1 voor makkelijk. Bij makkelijk heb je 25 hp.", 125, 165 - 70, 720, 700)
 
-    text("Druk op 2 voor normaal. Bij normaal heb je 10 hp.", 125, 275, 920, 700 )
+    text("Druk op 2 voor normaal. Bij normaal heb je 10 hp.", 125, 275 - 70, 920, 700 )
 
-    text("Druk op 3 voor moeilijk. Bij moeilijk heb je maar 1 hp dus je moet heel het spel zonder gehit te worden uitspelen. Bij moeilijk veranderd het uiterlijk van de game ook.", 125, 400, 1020, 700)
+    text("Druk op 3 voor moeilijk. Bij moeilijk heb je maar 1 hp dus je moet heel het spel zonder gehit te worden uitspelen. Bij moeilijk veranderd het uiterlijk van de game ook.", 125, 400 - 70, 1020, 700)
 
     if (gameStatus === UITGESPEELD) {
-    text("Je kunt nu levels selecteren door op het nummer van het level te drukken op je toetsenbord.", 125, 550, 1200, 1200);
+    fill('orange')
+    text("Je kunt nu levels selecteren door op het nummer van het level te drukken op je toetsenbord. Dit werkt alleen bij makkelijk en gemiddeld.", 125, 550 - 30, 1200, 1200);
     }
     if (keyIsDown(49)) {
         moeilijkheid = MAKKELIJK;
