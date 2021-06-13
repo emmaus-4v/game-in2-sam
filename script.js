@@ -516,7 +516,7 @@ function draw() {
 
     text("Druk op 2 voor normaal. Bij normaal heb je 10 hp.", 125, 275 - 70, 920, 700 )
 
-    text("Druk op 3 voor moeilijk. Bij moeilijk heb je maar 1 hp dus je moet heel het spel zonder gehit te worden uitspelen. Bij moeilijk veranderd het uiterlijk van de game ook.", 125, 400 - 70, 1020, 700)
+    text("Druk op 3 voor moeilijk. Bij moeilijk heb je maar 1 hp dus je moet heel het spel zonder af te gaan uitspelen. Bij moeilijk veranderd het uiterlijk van de game ook.", 125, 400 - 70, 1020, 700)
 
     if (gameStatus === UITGESPEELD) {
     fill('orange')
