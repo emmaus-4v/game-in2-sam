@@ -53,8 +53,8 @@ const S_KEY = 83;
 var spelerX = 100; // x-positie van speler
 var spelerY = 500; // y-positie van speler
 
-var jumpHoogte = 8.5 + 2.5;
-var speedJump = 0;
+var springHoogte = 8.5 + 2.5;
+var springTimer = 0;
 
 var damagePlatformSpeedX = [[0, 0, 0, 0], 
                             [], 
@@ -81,7 +81,7 @@ var platformSpeedY = [[],
                       [], 
                       [3.25, 3.25, 3.25, 3.25, 3.25], 
                       [],
-                      [0, 2, 2, 2],
+                      [0, 0, 0, 0],
                       [0]];
 
 var platformX = [[50, 300, 550, 800, 1050],
@@ -174,10 +174,8 @@ var hardMode = function() {
         stroke('red')
         line(width/2, 350, width/2 + 25, 350 - 25)
         line(width/2, 350, width/2 - 25, 350 - 25)
-        line(width/2, 300, width/2 + 25, 300 - 25)
-        line(width/2, 300, width/2 - 25, 300 - 25)
-        line(width/2, 300, width/2 + 25, 300 + 25)
-        line(width/2, 300, width/2 - 25, 300 + 25)
+        line(width/2 + 25, 325, width/2 - 25, 275)
+        line(width/2 - 25, 325, width/2 + 25, 275)
         line(width/2 + 25, 275, width/2 + 12.5, 262.5)
         line(width/2 - 25, 275, width/2 - 12.5, 262.5)
         line(width/2, 350, width/2, 270)
@@ -207,8 +205,8 @@ if (spelerX > x - spelerSize/2 &&
     ) 
 
      {spelerY = y - spelerSize/2;
-        jumpHoogte = 8.5 + 2.5;
-        speedJump = 0;
+        springHoogte = 8.5 + 2.5;
+        springTimer = 0;
      };
 
 if (spelerX > x - spelerSize/2 &&
@@ -218,7 +216,7 @@ if (spelerX > x - spelerSize/2 &&
     ) 
      
      {spelerY = y + 5 + h + spelerSize/2;
-      speedJump = 40;
+      springTimer = 40;
      };
 
 if (spelerX > x - spelerSize/2 &&
@@ -249,7 +247,7 @@ var damagePlatform = function(x, y, w, h)
         {hp -= 1;
         spelerX = 100;
         spelerY = 500 - spelerSize/2;
-        speedJump = 40;
+        springTimer = 40;
         spelStatus = LAADSCHERM;
     }
 };
@@ -296,26 +294,31 @@ var eindScherm = function() {
         levels = 0;
         spelerX = 100;
         spelerY = 500;
-        
+        stroke('black');
+
     if (keyIsDown(SPACEBAR)) {
         spelStatus = MOEILIJKHEIDKIEZEN;
+        }
+
+    if (keyIsDown(ENTER)) {
+        spelStatus = STARTSCHERM;
+        }
+
+    if (keyIsDown(ENTER) || keyIsDown(SPACEBAR)) {
         hp = 10;
-        stroke('black');
         score = 0;
         puntenX = [[100, 350, 600, 850, 1100],
                    [100, 300, 100, 300, 650, 750],
                    [100, 350, 600, 850, 1100],
                    [250, 550, 850],
                    [487.5, 812.5],
-                   [100, 350, 600, 850, 1100],
-                   []];
+                   [100, 350, 600, 850, 1100]];
         puntenY = [[450, 450, 450, 450, 450],
                    [450, 350, 250, 150, 425, 275],
                    [450, 450, 450, 450, 450], 
                    [400, 300, 200],
                    [400, 400],
-                   [450, 450, 450, 450, 450],
-                   []];
+                   [450, 450, 450, 450, 450]];
     }
 }
 
@@ -364,41 +367,29 @@ var tekenPunten = function(x, y, w, h) {
 
 var jumpSpeler = function() {
       if (keyIsDown(KEY_UP)) {
-         spelerY -= jumpHoogte;
-         speedJump += 1
+         spelerY -= springHoogte;
+         springTimer += 1
       }
 
-      if (speedJump === 5) {jumpHoogte = 6 + 2.5;
+      if (springTimer === 5) {springHoogte = 6 + 2.5;
       }
 
-      if (speedJump === 10) {jumpHoogte = 4.5 + 2.5;
+      if (springTimer === 10) {springHoogte = 4.5 + 2.5;
       }
 
-      if (speedJump === 20) {jumpHoogte = 3 + 2.5;
+      if (springTimer === 20) {springHoogte = 3 + 2.5;
       }
 
-      if (speedJump === 25) {jumpHoogte = 1.5 + 2.5;
+      if (springTimer === 25) {springHoogte = 1.5 + 2.5;
       }
 
-      if (speedJump === 30) {jumpHoogte = 0.75 + 2.5;
+      if (springTimer === 30) {springHoogte = 0.75 + 2.5;
       }
 
-      if (speedJump === 35) {jumpHoogte = 0.25 + 2.5;
+      if (springTimer === 35) {springHoogte = 0.25 + 2.5;
       }
 
-      if (speedJump === 36) {jumpHoogte = 0.20 + 2.5;
-      }
-
-      if (speedJump === 37) {jumpHoogte = 0.15 + 2.5;
-      }
-
-      if (speedJump === 38) {jumpHoogte = 0.10 + 2.5;
-      }
-
-      if (speedJump === 39) {jumpHoogte = 0.5 + 2.5;
-      }
-
-      if (speedJump > 39) {jumpHoogte = 0;
+      if (springTimer > 39) {springHoogte = 0;
       }
 };
 
@@ -530,6 +521,9 @@ function draw() {
 
     text("Druk op 3 voor moeilijk. Bij moeilijk heb je maar 1 hp dus je moet heel het spel zonder gehit te worden uitspelen. Bij moeilijk veranderd het uiterlijk van de game ook.", 125, 400, 1020, 700)
 
+    if (gameStatus === UITGESPEELD) {
+    text("Je kunt nu levels selecteren door op het nummer van het level te drukken op je toetsenbord.", 125, 550, 1200, 1200);
+    }
     if (keyIsDown(49)) {
         moeilijkheid = MAKKELIJK;
         spelStatus = SPELEN;
@@ -663,14 +657,9 @@ function draw() {
       for(var i = 0; i <puntenX[levels].length; i++) {
       tekenPunten(puntenX[levels][i], puntenY[levels][i], 20, 20)
       }
-      
-    damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
-    tekenDamagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
 
-    for(var i = 0; i < 6; i++) {
-      if (keyIsDown(49 + i) && levels !== i && keyIsDown(SHIFT)) {levels = i;
-      spelerX = 100;
-      spelerY = 500;}}
+      damagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
+      tekenDamagePlatform(20, 600 - 5, width - 2*20, height - 2*20 - 575 + 5)
 
       if (checkGameOver()) {
         spelStatus = GAMEOVER;
@@ -696,28 +685,27 @@ function draw() {
     text("Tijd: " + Math.round(tijd*100)/100, 640 - 45, 460, 700, 700)
 
     text('Druk op spacebar om verder te gaan', width/2 - 225, height/2 + 250, 700, 700)
+    text('Druk op enter om te stoppen', width/2 - 175, height/2 + 300, 700, 700)
     break;
 
-     case WINSCHERM: 
-     eindScherm();
-     if (tijd < snelsteTijd) {
+    case WINSCHERM: 
+    eindScherm();
+    if (tijd < snelsteTijd) {
             snelsteTijd = tijd;
         }
 
     background(43, 47, 119);
     textSize(75)
     fill('orange')
-    text("GAME WON", 640 - 165, 160, 700, 700)
+    text("GAME WON", 640 - 165, 160 + 50, 700, 700)
+
     textSize(35)
-    text("Score: " + score, 640 - 45, 260, 700, 700);
-    text("Highscore: " + hoogsteScore, 640 - 45, 310, 700, 700);
-    text("Tijd: " + Math.round(tijd*100)/100, 640 - 45, 360, 700, 700)
-    text("Snelste tijd: " + Math.round(snelsteTijd*100)/100, 640 - 45, 410, 700, 700)
-    text("Je kunt nu levels selecteren door op het ", 350, 480, 1200, 1200);
-    text("nummer van het level te drukken op je toetsenbord.", 300, 530, 1200, 1200);
-
+    text("Score: " + score, 640 - 45, 260 + 50, 700, 700);
+    text("Highscore: " + hoogsteScore, 640 - 45, 310 + 50, 700, 700);
+    text("Tijd: " + Math.round(tijd*100)/100, 640 - 45, 360 + 50, 700, 700)
+    text("Snelste tijd: " + Math.round(snelsteTijd*100)/100, 640 - 45, 410 + 50, 700, 700)
     text('Druk op spacebar om verder te gaan', width/2 - 225, height/2 + 250, 700, 700)
-
+    text('Druk op enter om te stoppen', width/2 - 175, height/2 + 300, 700, 700)
     break;
 
     // Dit laadscherm zorgt ervoor dat als je dood springt je tijd heb om de spring knop los te laten, 
@@ -731,10 +719,8 @@ function draw() {
     stroke('red')
     line(width/2, 350, width/2 + 25, 350 - 25)
     line(width/2, 350, width/2 - 25, 350 - 25)
-    line(width/2, 300, width/2 + 25, 300 - 25)
-    line(width/2, 300, width/2 - 25, 300 - 25)
-    line(width/2, 300, width/2 + 25, 300 + 25)
-    line(width/2, 300, width/2 - 25, 300 + 25)
+    line(width/2 + 25, 325, width/2 - 25, 275)
+    line(width/2 - 25, 325, width/2 + 25, 275)
     line(width/2 + 25, 275, width/2 + 12.5, 262.5)
     line(width/2 - 25, 275, width/2 - 12.5, 262.5)
     line(width/2, 350, width/2, 270)
