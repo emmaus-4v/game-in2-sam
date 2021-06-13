@@ -42,13 +42,10 @@ const HARDMODE = 2;
 var moeilijkheid = GEMIDDELD;
 
 const ENTER = 13;
-const SHIFT = 16;
 const KEY_LEFT = 37;
 const KEY_RIGHT = 39;
 const KEY_UP = 38;
-const KEY_DOWN = 40;
 const SPACEBAR = 32;
-const S_KEY = 83;
 
 var spelerX = 100; // x-positie van speler
 var spelerY = 500; // y-positie van speler
@@ -566,8 +563,6 @@ function draw() {
       timer()
       // Dit zijn de borders
       borders();
-
-      if (keyIsDown(S_KEY)) {spelStatus = STARTSCHERM;};
 
       if (gameStatus === UITGESPEELD) {
       for(var i = 0; i < 6; i++) {
