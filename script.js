@@ -500,7 +500,7 @@ function draw() {
 
     text("Dit is een damageplatform. Als je het platform aanraakt dan verlies je 1 hp en wordt je teruggestuurd naar het begin van het level. Bij een game over wordt je teruggestuurd naar het allereerste level", 325, 375, 900, 700 )
 
-    text("Dit is een punt. als je deze oppakt dan gaat je score plus 1.", 325, 550, 1000, 700)
+    text("Dit is een punt. Als je deze oppakt dan gaat je score plus 1.", 325, 550, 1000, 700)
 
     tekenPlatform(150, 250, 100, 50)
     tekenDamagePlatform(150, 375, 100, 50)
