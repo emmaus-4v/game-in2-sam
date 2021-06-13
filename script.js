@@ -141,7 +141,6 @@ var hoogsteScore = 0; // meeste behaalde punten
 /*      functies die je gebruikt in je game      */
 /* ********************************************* */
 
-// timer voor het laadscherm
 var timer = function() {
 tijd += (1/54)
 }
@@ -704,8 +703,8 @@ function draw() {
     text('Druk op enter om te stoppen', width/2 - 175, height/2 + 300, 700, 700)
     break;
 
-    // Dit laadscherm zorgt ervoor dat als je dood springt je tijd heb om de spring knop los te laten, 
-    // want anders spring je misschien wel meteen weer dood.
+    /*Dit laadscherm zorgt ervoor dat als je dood springt je tijd heb om de spring knop los te laten, 
+      want anders spring je misschien wel meteen weer dood.*/
     case LAADSCHERM:
     laatTijd += (1/54)
     if (laatTijd > 0.6) {
