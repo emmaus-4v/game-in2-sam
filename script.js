@@ -31,10 +31,10 @@ var laatTijd = 0;
 var levels = 0;
 
 var tijd = 0;
-var snelstetijd = Infinity;
+var snelsteTijd = Infinity;
 
 var gameStatus = 0;
-const UITGESPEELD = 1
+const UITGESPEELD = 1;
 
 const GEMIDDELD = 0;
 const MAKKELIJK = 1;
@@ -734,8 +734,8 @@ function draw() {
 
      case WINSCHERM: 
      eindScherm();
-     if (tijd < snelstetijd) {
-            snelstetijd = tijd;
+     if (tijd < snelsteTijd) {
+            snelsteTijd = tijd;
         }
 
     background(43, 47, 119);
@@ -746,7 +746,7 @@ function draw() {
     text("Score: " + score, 640 - 45, 260, 700, 700);
     text("Highscore: " + hoogsteScore, 640 - 45, 310, 700, 700);
     text("Tijd: " + Math.round(tijd*100)/100, 640 - 45, 360, 700, 700)
-    text("Snelste tijd: " + Math.round(snelstetijd*100)/100, 640 - 45, 410, 700, 700)
+    text("Snelste tijd: " + Math.round(snelsteTijd*100)/100, 640 - 45, 410, 700, 700)
     text("Je kunt nu levels selecteren door op het ", 350, 480, 1200, 1200);
     text("nummer van het level te drukken op je toetsenbord.", 300, 530, 1200, 1200);
 
@@ -754,7 +754,7 @@ function draw() {
 
     break;
 
-    // Dit laadscherm zorgt ervoor dat als je dood springtje tijd heb om de spring knop los te laten, 
+    // Dit laadscherm zorgt ervoor dat als je dood springt je tijd heb om de spring knop los te laten, 
     // want anders spring je misschien wel meteen weer dood.
     case LAADSCHERM:
     laatTijd += (1/54)

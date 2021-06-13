@@ -1,6 +1,6 @@
 Deze game is gebaseerd op het template voor 4HV van het Emmauscollege Rotterdam
 
-## Mijn spel: *naam van het spel*
+## Mijn spel: *CAVIA QUEST*
 Gemaakt door:
 - *Sam van Beek*
 
@@ -19,18 +19,17 @@ Basis: uitleg, spelen, afgaan en punten
 - [x] maak platformen die damage doen
 - [x] punten op scherm zetten
 - [x] punten kunnen scoren
-- [ ] uitlegscherm
+- [x] uitlegscherm
 - [x] als hp 0 is dan game over
 
 Uitbreiding: *bedenk iets, bijvoorbeeld meer tegenstanders*
-- [ ] teken vijanden 
-- [ ] vijanden bewegen 
-- [ ] vijanden doen damage
+- [x] teken vijanden 
+- [x] vijanden bewegen 
+- [x] vijanden doen damage
 
 Uitbreiding: *bedenk iets, bijvoorbeeld bewegende achtergrond*
-- [ ] dash ability (voor moeilijkere challenge)
-- [x] regen (bewegende achtergrond)
-- [ ] *later uitwerken*
+- [x] moeilijkheden
+- [x] laadschermen
 
 ## Credits
 - Game template van het Emmauscollege Rotterdam https://github.com/emmauscollege/4HV-game-template
