@@ -496,9 +496,9 @@ function draw() {
     text("Gebruik de linker en rechter pijltjes om heen en weer te bewegen. Met pijltje omhoog kan je springen. De langer je het pijltje ingedrukt houd de hoger je karakter springt.", 40, 20, 1240, 700)
     text("Druk op enter om verder te gaan.", 40, 150, 1240, 700)
 
-    text("Dit is een normaal platform waar je op kan springen", 325, 265, 700, 700)
+    text("Dit is een normaal platform waar je op kan springen.", 325, 265, 700, 700)
 
-    text("Dit is een damageplatform. Als je het platform aanraakt dan verlies je 1 hp en wordt je teruggestuurd naar het begin van het level. Bij een game over wordt je teruggestuurd naar het allereerste level", 325, 375, 900, 700 )
+    text("Dit is een damageplatform. Als je het platform aanraakt dan verlies je 1 hp en wordt je teruggestuurd naar het begin van het level. Bij een game over wordt je teruggestuurd naar het allereerste level.", 325, 375, 900, 700 )
 
     text("Dit is een punt. Als je deze oppakt dan gaat je score plus 1.", 325, 550, 1000, 700)
 
